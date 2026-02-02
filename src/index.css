@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-[#020617] text-slate-50 antialiased;
+  margin: 0;
+  min-height: 100vh;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  @apply bg-cyan-500/30 text-cyan-200;
+}
