@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: dark;
+@theme {
+  --color-imdb-gold: #f5c518;
+  --color-imdb-gold-dark: #dba506;
+  --color-imdb-black: #000000;
+  --color-imdb-blue: #5799ef;
+  --color-imdb-green: #40a040;
+  --color-imdb-red: #cc3333;
+  --color-surface: #121212;
+  --color-soft-white: #ffffff;
 }
 
-body {
-  @apply bg-[#020617] text-slate-50 antialiased;
-  margin: 0;
-  min-height: 100vh;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-::selection {
-  @apply bg-cyan-500/30 text-cyan-200;
+@layer base {
+  body {
+    @apply bg-imdb-black text-soft-white antialiased;
+    margin: 0;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
 }
