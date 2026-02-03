@@ -1,8 +1,6 @@
-// src/components/movies/MovieRow.jsx
 import { Link } from "react-router-dom";
 import MovieRowCard from "./MovieRowCard";
 
-// src/components/movies/MovieRow.jsx
 export default function MovieRow({ title, movies, viewAllPath }) {
   return (
     <div className="my-10">
@@ -21,7 +19,6 @@ export default function MovieRow({ title, movies, viewAllPath }) {
         {movies?.map((movie) => (
           <div
             key={movie.id}
-            // لازم نحدد min-width هنا عشان الصور ما تختفيش
             className="flex-none transition-all duration-300 group-hover:opacity-50 group-hover:scale-95 hover:!opacity-100 hover:!scale-100"
           >
             <MovieRowCard movie={movie} />

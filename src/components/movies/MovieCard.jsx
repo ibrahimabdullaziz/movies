@@ -1,5 +1,5 @@
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
-
+import { useNavigate } from "react-router-dom";
 export default function MovieCard({ movie }) {
   const releaseDate = movie?.release_date
     ? new Date(movie.release_date).toLocaleDateString("en-US", {
@@ -7,8 +7,12 @@ export default function MovieCard({ movie }) {
         year: "numeric",
       })
     : "TBA";
+  const navigate = useNavigate();
   return (
-    <div className="group bg-surface rounded-md overflow-hidden hover:ring-1 hover:ring-imdb-gold/50 transition-all duration-300">
+    <div
+      onClick={() => navigate(`/movie/${movie.id}`)}
+      className="group bg-surface rounded-md overflow-hidden hover:ring-1 hover:ring-imdb-gold/50 transition-all duration-300"
+    >
       <div className="relative aspect-[2/3]">
         <img
           src={`${IMAGE_URL}${movie.poster_path}`}

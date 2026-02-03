@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useMoviesByGenre } from "../hooks/useMovies";
 import MovieCard from "../components/movies/MovieCard";
+import MovieList from "../components/movies/MoviesList";
+import Header from "../components/common/Header";
 
 export default function GenrePage() {
   const { id, name } = useParams();
@@ -8,16 +10,11 @@ export default function GenrePage() {
 
   return (
     <div className="p-8 min-h-screen bg-imdb-black">
-      <h1 className="text-3xl text-imdb-gold font-bold mb-8">{name} Movies</h1>
-
+      <Header HeadTitle={name} />
       {isLoading ? (
         <div className="text-white">Loading...</div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {data?.results?.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+        <MovieList movies={data?.results} />
       )}
     </div>
   );

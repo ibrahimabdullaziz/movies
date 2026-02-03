@@ -6,16 +6,15 @@ const cardVariants = {
   initial: {
     scale: 1,
     opacity: 1,
-    width: 280, // لازم عرض ثابت
-    height: 160, // لازم ارتفاع ثابت
+    width: 280,
+    height: 160,
   },
-  // لما نقف على "الصف نفسه" كل الكروت هتاخد dimmed
+
   hovered: {
     scale: 0.9,
     opacity: 0.5,
     filter: "grayscale(50%)",
   },
-  // لما نقف على "الكارت ده بالذات" هياخد expanded ويلغي الـ dimmed
   expanded: {
     scale: 1.3,
     opacity: 1,
@@ -33,13 +32,11 @@ export default function MovieRowCard({ movie }) {
       initial="initial"
       layout
       variants={cardVariants}
-      // whileHover هنا بتعمل Override للـ variants اللي جاية من الأب
       whileHover="expanded"
       className="relative cursor-pointer flex-none"
       style={{ originX: 0.5, originY: 0.5 }}
     >
       <div className="relative w-full h-full overflow-hidden rounded-xl bg-surface shadow-2xl ring-1 ring-white/10">
-        {/* Poster Image (تختفي في الـ expanded) */}
         <motion.img
           src={`${IMAGE_URL}${movie.poster_path}`}
           className="absolute inset-0 w-full h-full object-cover"
@@ -49,7 +46,6 @@ export default function MovieRowCard({ movie }) {
           }}
         />
 
-        {/* Backdrop Image (تظهر في الـ expanded) */}
         <motion.img
           src={`${IMAGE_URL}${movie.backdrop_path}`}
           className="absolute inset-0 w-full h-full object-cover"
@@ -59,7 +55,6 @@ export default function MovieRowCard({ movie }) {
           }}
         />
 
-        {/* Info Overlay */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end p-4"
           initial={{ opacity: 0 }}
