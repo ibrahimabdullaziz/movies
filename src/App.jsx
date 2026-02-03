@@ -3,10 +3,12 @@ import Home from "./pages/Home";
 import GenrePage from "./pages/GenrePage";
 import TrendingPage from "./pages/TrendingPage";
 import MovieDetails from "./pages/MovieDetailsPage";
+import Navbar from "./components/layout/navBar";
 
 function App() {
   return (
     <div className="bg-imdb-black min-h-screen">
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/trending" element={<TrendingPage />} />

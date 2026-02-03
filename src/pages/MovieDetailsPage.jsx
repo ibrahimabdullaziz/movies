@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../hooks/useMovies";
 import TrailerModal from "../components/movies/TrailerModel";
+import { formatDate, formatRating, formatRuntime } from "../utils/Formatter";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
@@ -24,7 +25,9 @@ export default function MovieDetails() {
     );
 
   const trailer = movie?.videos?.results?.find((vid) => vid.type === "Trailer");
-
+  const releaseDate = formatDate(movie?.release_date);
+  const runTime = formatRuntime(movie?.runtime);
+  const rating = formatRating(movie?.vote_average);
   return (
     <div className="relative min-h-screen bg-imdb-black text-white overflow-x-hidden">
       <div className="absolute inset-0 h-[70vh] lg:h-screen">
@@ -47,9 +50,9 @@ export default function MovieDetails() {
         <div className="max-w-3xl space-y-6">
           <h1 className="text-5xl lg:text-7xl font-black">{movie.title}</h1>
           <div className="flex items-center gap-4 text-imdb-gold font-bold">
-            <span>★ {movie.vote_average?.toFixed(2)}</span>
-            <span>{movie.release_date?.split("-")[0]}</span>
-            <span>{movie.runtime} min</span>
+            <span>★ {rating}</span>
+            <span>{releaseDate}</span>
+            <span>{runTime}</span>
           </div>
           <p className="text-xl text-gray-200">{movie.overview}</p>
 

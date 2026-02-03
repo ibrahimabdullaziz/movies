@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { formatRating } from "../../utils/Formatter";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
@@ -63,7 +64,7 @@ export default function MovieRowCard({ movie }) {
           }}
         >
           <p className="text-imdb-gold font-bold text-xs">
-            ★ {movie.vote_average?.toFixed(1)}
+            ★ {formatRating(movie?.vote_average)}
           </p>
           <h3 className="text-white text-sm font-black truncate">
             {movie.title}

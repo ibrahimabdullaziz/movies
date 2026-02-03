@@ -1,13 +1,13 @@
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 import { useNavigate } from "react-router-dom";
+import { formatDate, formatRating } from "../../utils/Formatter";
+
 export default function MovieCard({ movie }) {
-  const releaseDate = movie?.release_date
-    ? new Date(movie.release_date).toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      })
-    : "TBA";
   const navigate = useNavigate();
+
+  const releaseDate = formatDate(movie?.release_date);
+  const rating = formatRating(movie?.vote_average);
+
   return (
     <div
       onClick={() => navigate(`/movie/${movie.id}`)}
@@ -21,9 +21,7 @@ export default function MovieCard({ movie }) {
         />
         <div className="absolute bottom-2 left-2 bg-black/80 px-2 py-1 rounded flex items-center gap-1">
           <span className="text-imdb-gold text-sm font-bold">★</span>
-          <span className="text-white text-xs font-bold">
-            {movie.vote_average.toFixed(2)}
-          </span>
+          <span className="text-white text-xs font-bold">{rating}</span>
         </div>
       </div>
 
