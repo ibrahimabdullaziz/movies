@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   fetchTrendingMovies,
-  fetchAllMovies,
   fetchAllGenres,
   fetchMoviesByGenre,
 } from "../services/movieService";

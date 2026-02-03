@@ -1,23 +1,34 @@
 import MovieRow from "../components/movies/MovieRow";
-import { useGenres, useTrendingMovies } from "../hooks/useMovies";
 import GenreRow from "../components/movies/GenreRow";
+import { useGenres, useTrendingMovies } from "../hooks/useMovies";
 
 export default function Home() {
-  const { data: trendingData } = useTrendingMovies();
-  const { data: genresData } = useGenres();
-
-  console.log("Trending Data:", trendingData);
+  const { data: trendingMovies, isLoading: isTrendingLoading } =
+    useTrendingMovies();
+  const { data: genresData, isLoading: isGenresLoading } = useGenres();
 
   return (
     <div className="min-h-screen bg-imdb-black pb-10">
-      <MovieRow
-        title="Trending Today"
-        movies={trendingData?.slice(0, 10)}
-        viewAllPath="/trending"
-      />
-      {genresData?.genres?.map((genre) => (
-        <GenreRow key={genre.id} genre={genre} />
-      ))}
+      {isTrendingLoading ? (
+        <div className="h-64 bg-surface/20 animate-pulse m-8 rounded-xl" />
+      ) : (
+        <MovieRow
+          title="Trending Today"
+          movies={trendingMovies?.slice(0, 10)}
+          viewAllPath="/trending"
+        />
+      )}
+
+      {isGenresLoading ? (
+        <div className="space-y-8 p-8">
+          <div className="h-40 bg-surface/20 animate-pulse rounded-xl" />
+          <div className="h-40 bg-surface/20 animate-pulse rounded-xl" />
+        </div>
+      ) : (
+        genresData?.genres?.map((genre) => (
+          <GenreRow key={genre.id} genre={genre} />
+        ))
+      )}
     </div>
   );
 }

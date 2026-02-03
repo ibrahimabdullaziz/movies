@@ -1,5 +1,8 @@
-import MovieRowCard from "./MovieRowCard";
+// src/components/movies/MovieRow.jsx
 import { Link } from "react-router-dom";
+import MovieRowCard from "./MovieRowCard";
+
+// src/components/movies/MovieRow.jsx
 export default function MovieRow({ title, movies, viewAllPath }) {
   return (
     <div className="my-10">
@@ -8,17 +11,21 @@ export default function MovieRow({ title, movies, viewAllPath }) {
           {title}
         </h2>
         {viewAllPath && (
-          <Link
-            to={viewAllPath}
-            className="text-sm text-imdb-gold hover:text-white transition-colors font-bold flex items-center gap-1"
-          >
-            Explore All <span>&rarr;</span>
+          <Link to={viewAllPath} className="text-sm text-imdb-gold font-bold">
+            Explore All &rarr;
           </Link>
         )}
       </div>
-      <div className="flex overflow-x-scroll gap-8 px-10 pb-10 scrollbar-hide snap-x">
+
+      <div className="flex items-center overflow-x-scroll gap-6 px-12 py-20 scrollbar-hide group">
         {movies?.map((movie) => (
-          <MovieRowCard key={movie.id} movie={movie} />
+          <div
+            key={movie.id}
+            // لازم نحدد min-width هنا عشان الصور ما تختفيش
+            className="flex-none transition-all duration-300 group-hover:opacity-50 group-hover:scale-95 hover:!opacity-100 hover:!scale-100"
+          >
+            <MovieRowCard movie={movie} />
+          </div>
         ))}
       </div>
     </div>
