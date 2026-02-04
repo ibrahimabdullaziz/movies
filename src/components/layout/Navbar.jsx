@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useWatchlist } from "../../hooks/useWatchList";
-
+import SearchBar from "./SearchBar";
 export default function Navbar() {
   const navigate = useNavigate();
 
@@ -58,10 +58,9 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-
-          <button className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-all">
-            🔍
-          </button>
+          <div className="flex-1 max-w-md">
+            <SearchBar />
+          </div>
         </div>
       </div>
     </nav>
