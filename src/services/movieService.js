@@ -23,3 +23,6 @@ export const fetchActorMovies = (actorId) =>
 
 export const fetchMovieReviews = (id) =>
   fetchFromTMDB(`/movie/${id}/reviews`, "language=en-US&page=1");
+
+export const fetchMovieVideos = (id) =>
+  fetchFromTMDB(`/movie/${id}/videos`, "language=en-US");

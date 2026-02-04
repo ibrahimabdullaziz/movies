@@ -1,7 +1,7 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { useSearchMovies } from "../hooks/useSearch";
 import MovieCard from "../components/movies/MovieCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../components/layout/Pagination";
 
 export default function SearchPage() {
@@ -43,7 +43,6 @@ export default function SearchPage() {
           </div>
         )}
       </div>
-
       {isLoading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 animate-pulse">
           {[...Array(12)].map((_, i) => (

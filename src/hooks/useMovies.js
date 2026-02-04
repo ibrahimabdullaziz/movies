@@ -8,6 +8,7 @@ import {
   fetchMoviesByGenre,
   fetchActorDetails,
   fetchActorMovies,
+  fetchMovieVideos,
 } from "../services/movieService";
 
 export const useTrendingMovies = (page) => {
@@ -59,3 +60,11 @@ export function useActorData(id) {
 
   return { details, movies };
 }
+
+export const useMovieVideos = (id) => {
+  return useQuery({
+    queryKey: ["movie-videos", id],
+    queryFn: () => fetchMovieVideos(id),
+    enabled: !!id,
+  });
+};

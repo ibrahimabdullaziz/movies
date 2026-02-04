@@ -12,14 +12,15 @@ import Container from "../components/UI/Container";
 import Cast from "../components/actors/Cast";
 import { States } from "../components/movies/MovieStates";
 import { Reviews } from "../components/movies-details/Reviews";
+import { useTrailer } from "../context/TrailerContext";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
 export default function MovieDetails() {
   const { id } = useParams();
   const { data: movie, isLoading, isError } = useMovieDetails(id);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toggleWatchlist, isInWatchlist } = useWatchlist();
+  const { openTrailer } = useTrailer();
 
   if (isLoading) return <MovieDetailSkeleton />;
 
@@ -86,7 +87,7 @@ export default function MovieDetails() {
 
             <Container classes="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => openTrailer(movie)}
                 className="bg-imdb-gold text-black px-10 py-4 rounded-2xl font-black hover:bg-yellow-400 hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(245,197,24,0.3)] flex items-center gap-3"
               >
                 <span className="text-xl">▶</span> WATCH TRAILER
@@ -120,13 +121,6 @@ export default function MovieDetails() {
           <MovieList movies={recommendations} />
         </section>
       </Container>
-
-      <TrailerModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        trailerKey={trailer?.key}
-        title={movie.title}
-      />
     </Container>
   );
 }
