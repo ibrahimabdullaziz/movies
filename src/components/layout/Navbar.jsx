@@ -1,7 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useWatchlist } from "../../hooks/useWatchList";
 
 export default function Navbar() {
   const navigate = useNavigate();
+
+  const { watchlist } = useWatchlist();
 
   return (
     <nav className="fixed top-0 w-full z-[100] bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md border-b border-white/10">
@@ -26,13 +29,11 @@ export default function Navbar() {
         </button>
         <Link to="/" className="flex items-center gap-2 group">
           <div className="bg-imdb-gold p-1.5 rounded-lg group-hover:scale-110 transition-transform">
-            <svg
-              className="w-8 h-8 text-black"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M19.65 2.83H4.35A1.52 1.52 0 0 0 2.83 4.35v15.3a1.52 1.52 0 0 0 1.52 1.52h15.3a1.52 1.52 0 0 0 1.52-1.52V4.35a1.52 1.52 0 0 0-1.52-1.52zM12 17.17h-1.63V7.5H12v9.67zm4.55 0h-1.63V7.5h1.63v9.67zM7.45 17.17H5.82V7.5h1.63v9.67z" />
-            </svg>
+            <img
+              src="/icon.svg"
+              alt="App Logo"
+              className="w-10 h-10 group-hover: transition-transform shadow-lg"
+            />
           </div>
           <span className="text-2xl font-black tracking-tighter text-white">
             Ur<span className="text-imdb-gold">Movies</span>
@@ -48,9 +49,14 @@ export default function Navbar() {
           </Link>
           <Link
             to="/watchlist"
-            className="hover:text-imdb-gold transition-colors font-semibold"
+            className="relative hover:text-imdb-gold transition-colors"
           >
             Watchlist
+            {watchlist.length > 0 && (
+              <span className="absolute -top-3 -right-4 bg-imdb-gold text-black text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full animate-pulse">
+                {watchlist.length}
+              </span>
+            )}
           </Link>
 
           <button className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-all">

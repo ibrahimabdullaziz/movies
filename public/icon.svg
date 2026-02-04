@@ -1,0 +1,23 @@
+<svg 
+  width="40" 
+  height="40" 
+  viewBox="0 0 24 24" 
+  fill="none" 
+  xmlns="http://www.w3.org/2000/svg"
+  className="hover:rotate-12 transition-transform duration-300"
+>
+ 
+  <rect width="24" height="24" rx="6" fill="#F5C518" />
+  
+  <path 
+    d="M7 7H17M7 12H17M7 17H17M5 5V19M19 5V19" 
+    stroke="black" 
+    strokeWidth="2.5" 
+    strokeLinecap="round" 
+  />
+  
+  <rect x="16" y="8" width="1.5" height="1.5" rx="0.75" fill="black" />
+  <rect x="16" y="14.5" width="1.5" height="1.5" rx="0.75" fill="black" />
+  <rect x="6.5" y="8" width="1.5" height="1.5" rx="0.75" fill="black" />
+  <rect x="6.5" y="14.5" width="1.5" height="1.5" rx="0.75" fill="black" />
+</svg>
