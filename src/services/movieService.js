@@ -14,3 +14,9 @@ export const fetchAllGenres = () =>
 
 export const fetchMoviesByGenre = (genreId, page = 1) =>
   fetchFromTMDB("/discover/movie", `with_genres=${genreId}&page=${page}`);
+
+export const fetchActorDetails = (actorId) =>
+  fetchFromTMDB(`/person/${actorId}`, "language=en-US");
+
+export const fetchActorMovies = (actorId) =>
+  fetchFromTMDB(`/person/${actorId}/movie_credits`, "language=en-US");
