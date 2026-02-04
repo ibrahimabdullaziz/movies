@@ -2,8 +2,10 @@ const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 import { useNavigate } from "react-router-dom";
 import { formatDate, formatRating } from "../../utils/Formatter";
 import { Poster } from "../movies-details/Movie-poster";
-import { useWatchlist } from "../../hooks/useWatchList"; // تأكد من المسار
+import { useWatchlist } from "../../hooks/useWatchList";
 import { useTrailer } from "../../context/TrailerContext";
+import Container from "../UI/Container";
+import Metadata from "../movies-details/MovieMetadata";
 
 export default function MovieCard({ movie }) {
   const navigate = useNavigate();
@@ -14,68 +16,65 @@ export default function MovieCard({ movie }) {
   const rating = formatRating(movie?.vote_average);
   const isAdded = isInWatchlist(movie?.id);
 
-  const handleTrailerClick = (e) => {
-    e.stopPropagation(); // عشان ميعملش navigate لصفحة الفيلم
-    openTrailer(movie);
-  };
-
-  const handleWatchlistClick = (e) => {
-    e.stopPropagation();
-    toggleWatchlist(movie);
-  };
-
   return (
     <div
       onClick={() => navigate(`/movie/${movie.id}`)}
-      className="group relative bg-surface rounded-xl overflow-hidden hover:ring-2 hover:ring-imdb-gold/50 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-imdb-gold/10"
+      className="group relative bg-surface rounded-xl overflow-hidden hover:ring-2 hover:ring-imdb-gold/50 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-imdb-gold/20"
     >
-      {/* Container للصورة والـ Overlay */}
       <div className="relative aspect-[2/3] overflow-hidden">
         <Poster url={IMAGE_URL} path={movie.poster_path} title={movie.title} />
 
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
-          {/* Play Trailer Button */}
-          <button
-            onClick={handleTrailerClick}
-            className="w-12 h-12 bg-white/20 hover:bg-imdb-gold hover:text-black rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
-            title="Watch Trailer"
-          >
-            <span className="text-xl ml-1">▶</span>
-          </button>
+        <Container classes="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[3px] p-4 flex flex-col justify-end">
+          <Container classes="mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+            <p className="text-imdb-gold italic text-[11px] leading-tight line-clamp-2 mb-2">
+              "{movie.tagline || movie.overview?.substring(0, 50)}..."
+            </p>
 
-          {/* Add to Watchlist Button */}
-          <button
-            onClick={handleWatchlistClick}
-            className={`w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75 ${
-              isAdded
-                ? "bg-imdb-gold text-black scale-110"
-                : "bg-white/20 hover:bg-white/40 text-white"
-            }`}
-            title={isAdded ? "Remove from Watchlist" : "Add to Watchlist"}
-          >
-            <span className="text-2xl font-light">{isAdded ? "✓" : "+"}</span>
-          </button>
-        </div>
+            <Metadata
+              isMovieAdult={movie.adult}
+              releaseDate={movie.release_date}
+            />
+          </Container>
 
-        {/* Rating Badge (دايماً ظاهر) */}
-        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 border border-white/10">
+          <div className="flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-150">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                openTrailer(movie);
+              }}
+              className="flex-1 h-10 bg-imdb-gold text-black rounded-lg flex items-center justify-center gap-2 hover:bg-yellow-500 transition-all duration-300 font-black text-xs uppercase"
+            >
+              <span className="text-base">▶</span> Trailer
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleWatchlist(movie);
+              }}
+              className={`w-10 h-10 rounded-lg flex items-center justify-center backdrop-blur-md transition-all duration-300 ${
+                isAdded
+                  ? "bg-green-500 text-white"
+                  : "bg-white/10 hover:bg-white/20 text-white border border-white/10"
+              }`}
+              title={isAdded ? "Remove from Watchlist" : "Add to Watchlist"}
+            >
+              <span className="text-xl">{isAdded ? "✓" : "+"}</span>
+            </button>
+          </div>
+        </Container>
+
+        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 border border-white/10">
           <span className="text-imdb-gold text-xs">★</span>
           <span className="text-white text-[10px] font-bold">{rating}</span>
         </div>
       </div>
 
-      {/* Movie Info */}
-      <div className="p-4">
+      {/* Movie Title Footer */}
+      <div className="p-3">
         <h2 className="text-sm font-bold line-clamp-1 group-hover:text-imdb-gold transition-colors">
           {movie.title}
         </h2>
-        <div className="flex items-center justify-between mt-2">
-          <span className="text-[10px] text-slate-400 font-medium tracking-wider">
-            {releaseDate?.split(",")[1] || releaseDate}{" "}
-            {/* عرض السنة فقط لشكل أنضف */}
-          </span>
-        </div>
       </div>
     </div>
   );

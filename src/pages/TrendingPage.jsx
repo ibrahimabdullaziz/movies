@@ -11,7 +11,7 @@ export default function TrendingPage() {
 
   return (
     <div className="p-8 pt-24 min-h-screen bg-imdb-black">
-      <Header HeadTitle="Trending Movies" />
+      <Header HeadTitle="Trending " />
 
       <div
         className={`transition-opacity duration-300 ${isPlaceholderData ? "opacity-50" : "opacity-100"}`}
