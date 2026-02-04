@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -12,7 +12,7 @@ export const useTrendingMovies = (page) => {
   return useQuery({
     queryKey: ["trendingMovies", page],
     queryFn: () => fetchTrendingMovies(page),
-    select: (data) => data.results,
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -27,6 +27,7 @@ export const useMoviesByGenre = (genreId, page = 1) => {
   return useQuery({
     queryKey: ["moviesByGenre", genreId, page],
     queryFn: () => fetchMoviesByGenre(genreId, page),
+    placeholderData: keepPreviousData,
     enabled: !!genreId,
   });
 };

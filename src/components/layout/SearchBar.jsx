@@ -7,7 +7,6 @@ export default function SearchBar() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const navigate = useNavigate();
 
-  // Debounce Logic
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchTerm);
@@ -17,18 +16,16 @@ export default function SearchBar() {
 
   const { data: results, isLoading } = useSearchMovies(debouncedQuery);
 
-  // وظيفة البحث عند ضغط Enter
   const handleSubmit = (e) => {
-    e.preventDefault(); // منع الصفحة من الـ Refresh
+    e.preventDefault();
     if (searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm)}`); // التوجيه لصفحة النتائج
-      setSearchTerm(""); // قفل القائمة المنبثقة
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      setSearchTerm("");
     }
   };
 
   return (
     <div className="relative group">
-      {/* حولنا الـ div لـ form عشان يشغل الـ Enter */}
       <form onSubmit={handleSubmit} className="relative">
         <input
           type="text"
@@ -42,7 +39,6 @@ export default function SearchBar() {
         </span>
       </form>
 
-      {/* القائمة السريعة (Dropdown Preview) */}
       {debouncedQuery && (
         <div className="absolute top-12 left-0 w-full bg-imdb-black border border-white/10 rounded-xl shadow-2xl overflow-hidden z-[200] backdrop-blur-xl">
           {isLoading ? (
@@ -51,7 +47,7 @@ export default function SearchBar() {
             </div>
           ) : (
             <>
-              {results?.slice(0, 6).map((movie) => (
+              {results?.results?.slice(0, 6).map((movie) => (
                 <button
                   key={movie.id}
                   onClick={() => {
@@ -80,8 +76,7 @@ export default function SearchBar() {
                 </button>
               ))}
 
-              {/* زرار عرض كل النتائج في الآخر */}
-              {results?.length > 0 && (
+              {results?.results?.length > 0 && (
                 <button
                   onClick={handleSubmit}
                   className="w-full p-3 text-center text-imdb-gold text-xs font-bold hover:bg-imdb-gold hover:text-black transition-all"
@@ -92,7 +87,7 @@ export default function SearchBar() {
             </>
           )}
 
-          {!isLoading && results?.length === 0 && (
+          {!isLoading && results?.results?.length === 0 && (
             <div className="p-4 text-center text-sm text-gray-500">
               No results found 😕
             </div>
