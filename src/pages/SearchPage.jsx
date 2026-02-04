@@ -2,12 +2,14 @@ import { useSearchParams, Link } from "react-router-dom";
 import { useSearchMovies } from "../hooks/useSearch";
 import MovieCard from "../components/movies/MovieCard";
 import { useEffect } from "react";
+import Pagination from "../components/layout/Pagination";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.get("q") || "";
-  const currentPage = parseInt(searchParams.get("page")) || 1;
+  const pageFromUrl = parseInt(searchParams.get("page")) || 1;
+  const currentPage = pageFromUrl > 500 ? 500 : pageFromUrl;
 
   const { data, isLoading, isFetching } = useSearchMovies(query, currentPage);
 
@@ -57,28 +59,11 @@ export default function SearchPage() {
           </div>
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-4 mt-16 pb-16">
-              <button
-                disabled={currentPage === 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-                className="px-6 py-2 rounded-full border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-bold"
-              >
-                Previous
-              </button>
-
-              <span className="text-gray-400 font-mono">
-                Page <span className="text-white">{currentPage}</span> of{" "}
-                {totalPages}
-              </span>
-
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-                className="px-6 py-2 rounded-full bg-imdb-gold text-black hover:bg-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-bold"
-              >
-                Next
-              </button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           )}
         </>
       ) : (

@@ -23,7 +23,6 @@ export default function ActorPage() {
   return (
     <div className="min-h-screen bg-imdb-black text-white pt-32 px-6 lg:px-16 pb-20">
       <div className="flex flex-col md:flex-row gap-12">
-        {/* Actor Photo */}
         <div className="w-full md:w-1/3 lg:w-1/4">
           <img
             src={`${IMAGE_URL}${actor.profile_path}`}
@@ -50,7 +49,6 @@ export default function ActorPage() {
           </div>
         </div>
 
-        {/* Actor Biography */}
         <div className="flex-1 space-y-8">
           <h1 className="text-5xl lg:text-7xl font-black">{actor.name}</h1>
           <div className="space-y-4">
@@ -62,7 +60,6 @@ export default function ActorPage() {
             </p>
           </div>
 
-          {/* Known For Movies */}
           <div className="space-y-6 pt-10">
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <span className="w-1 h-6 bg-imdb-gold rounded-full" /> Known For

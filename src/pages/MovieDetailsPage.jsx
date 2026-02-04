@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom"; // ضفنا Link
+import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../hooks/useMovies";
 import TrailerModal from "../components/movies/TrailerModel";
-import MovieList from "../components/movies/MoviesList"; // لعرض الأفلام المقترحة
+import MovieList from "../components/movies/MoviesList";
 import { formatDate, formatRating, formatRuntime } from "../utils/Formatter";
 import { useWatchlist } from "../hooks/useWatchList";
 import MovieDetailSkeleton from "../components/skeleton/MovieDetailsSkeleton";
+import { BackdropImage } from "../components/movies-details/backdrop-image";
+import { Poster } from "../components/movies-details/Movie-poster";
+import Container from "../components/UI/Container";
+import Cast from "../components/actors/Cast";
+import { States } from "../components/movies/MovieStates";
+import { Reviews } from "../components/movies-details/Reviews";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
@@ -22,168 +28,89 @@ export default function MovieDetails() {
   const cast = movie?.credits?.cast?.slice(0, 12);
   const recommendations = movie?.recommendations?.results?.slice(0, 6);
 
-  const reviews = movie?.reviews?.results?.slice(0, 5);
-
   return (
-    <div className="relative min-h-screen bg-imdb-black text-white pb-20">
-      <div className="relative h-[60vh] lg:h-[85vh] w-full">
-        <img
-          src={`${IMAGE_URL}${movie.backdrop_path}`}
-          className="w-full h-full object-cover object-top"
-          alt={movie.title}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-imdb-black via-imdb-black/40 to-transparent" />
-      </div>
-
-      <div className="relative -mt-64 px-6 lg:px-16 space-y-16">
-        <div className="flex flex-col lg:flex-row gap-10 items-end lg:items-start">
-          <img
-            src={`${IMAGE_URL}${movie.poster_path}`}
-            className="w-64 lg:w-80 rounded-2xl shadow-2xl border border-white/10 hidden md:block"
-            alt={movie.title}
+    <Container classes="relative min-h-screen bg-imdb-black text-white pb-20 overflow-x-hidden">
+      <BackdropImage
+        url={IMAGE_URL}
+        path={movie.backdrop_path}
+        title={movie.title}
+      />
+      <Container classes="relative pt-[25vh] lg:pt-[35vh] px-6 lg:px-16 space-y-20">
+        <Container classes="flex flex-col lg:flex-row gap-10 items-center lg:items-start text-center lg:text-left">
+          <Poster
+            url={IMAGE_URL}
+            path={movie.poster_path}
+            title={movie.title}
           />
 
-          <div className="flex-1 space-y-6">
-            <div className="flex flex-wrap gap-2">
+          <Container classes="flex-1 space-y-6">
+            <Container classes="flex flex-wrap gap-2 justify-center lg:justify-start">
               {movie.genres?.map((g) => (
                 <span
                   key={g.id}
-                  className="px-3 py-1 bg-imdb-gold/10 border border-imdb-gold/20 text-imdb-gold rounded-full text-sm font-medium"
+                  className="px-4 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-imdb-gold rounded-full text-xs font-bold uppercase tracking-wider"
                 >
                   {g.name}
                 </span>
               ))}
-            </div>
+            </Container>
 
-            <h1 className="text-5xl lg:text-7xl font-black leading-tight">
-              {movie.title}
-            </h1>
+            {/* Title & Tagline */}
+            <Container classes="space-y-2">
+              <h1 className="text-5xl lg:text-8xl font-black tracking-tighter drop-shadow-2xl">
+                {movie.title}
+              </h1>
+              {movie.tagline && (
+                <p className="text-xl lg:text-2xl text-imdb-gold/80 font-medium italic">
+                  "{movie.tagline}"
+                </p>
+              )}
+            </Container>
 
-            <div className="flex items-center gap-6 text-gray-400 font-bold">
-              <span className="text-imdb-gold text-2xl">
-                ★ {formatRating(movie.vote_average)}
-              </span>
+            <Container classes="flex items-center justify-center lg:justify-start gap-6 text-gray-300 font-bold">
+              <Container classes="flex items-center gap-2">
+                <span className="text-imdb-gold text-2xl">★</span>
+                <span className="text-2xl">
+                  {formatRating(movie.vote_average)}
+                </span>
+              </Container>
+              <Container classes="h-4 w-[1px] bg-white/20" />
               <span>{formatDate(movie.release_date)}</span>
+              <div className="h-4 w-[1px] bg-white/20" />
               <span>{formatRuntime(movie.runtime)}</span>
-            </div>
+            </Container>
 
-            <p className="text-xl text-gray-300 max-w-4xl leading-relaxed italic">
-              {movie.tagline}
-            </p>
-            <p className="text-lg text-gray-200 max-w-4xl leading-relaxed">
+            <p className="text-lg lg:text-xl text-gray-200 max-w-3xl leading-relaxed mx-auto lg:mx-0">
               {movie.overview}
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4">
+            <Container classes="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-imdb-gold text-black px-8 py-4 rounded-xl font-bold hover:bg-yellow-500 transition-all flex items-center gap-2"
+                className="bg-imdb-gold text-black px-10 py-4 rounded-2xl font-black hover:bg-yellow-400 hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(245,197,24,0.3)] flex items-center gap-3"
               >
-                ▶ Watch Trailer
+                <span className="text-xl">▶</span> WATCH TRAILER
               </button>
+
               <button
                 onClick={() => toggleWatchlist(movie)}
-                className={`px-8 py-4 rounded-xl font-bold border-2 transition-all ${isAdded ? "bg-red-600/20 border-red-600 text-red-500" : "bg-white/10 border-transparent text-white"}`}
+                className={`px-10 py-4 rounded-2xl font-black border-2 transition-all flex items-center gap-2 ${
+                  isAdded
+                    ? "bg-red-600/10 border-red-600 text-red-500 hover:bg-red-600 hover:text-white"
+                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
+                }`}
               >
-                {isAdded ? "✕ Remove" : "+ Watchlist"}
+                {isAdded ? "✕ REMOVE" : "+ WATCHLIST"}
               </button>
-            </div>
-          </div>
-        </div>
+            </Container>
+          </Container>
+        </Container>
 
-        <section>
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <span className="w-2 h-8 bg-imdb-gold rounded-full" /> Top Cast
-          </h2>
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
-            {cast?.map((person) => (
-              <Link
-                key={person.id}
-                to={`/actor/${person.id}`}
-                className="flex-shrink-0 w-32 lg:w-40 group cursor-pointer"
-              >
-                <div className="aspect-square rounded-full overflow-hidden border-2 border-white/5 group-hover:border-imdb-gold transition-colors mb-3">
-                  <img
-                    src={
-                      person.profile_path
-                        ? `${IMAGE_URL}${person.profile_path}`
-                        : "https://via.placeholder.com/200x200?text=No+Image"
-                    }
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                    alt={person.name}
-                  />
-                </div>
-                <p className="font-bold text-center line-clamp-1">
-                  {person.name}
-                </p>
-                <p className="text-sm text-gray-400 text-center line-clamp-1">
-                  {person.character}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <Cast cast={cast} image_url={IMAGE_URL} />
 
-        <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-white/5 rounded-3xl border border-white/10">
-          <div>
-            <p className="text-gray-400 text-sm uppercase tracking-widest">
-              Status
-            </p>
-            <p className="text-xl font-bold">{movie.status}</p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm uppercase tracking-widest">
-              Budget
-            </p>
-            <p className="text-xl font-bold">
-              ${movie.budget?.toLocaleString()}
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm uppercase tracking-widest">
-              Revenue
-            </p>
-            <p className="text-xl font-bold">
-              ${movie.revenue?.toLocaleString()}
-            </p>
-          </div>
-        </section>
+        <States movie={movie} />
 
-        <section className="space-y-8">
-          <h2 className="text-3xl font-bold flex items-center gap-3">
-            <span className="w-2 h-8 bg-imdb-gold rounded-full" /> User Reviews
-          </h2>
-
-          {reviews?.length > 0 ? (
-            <div className="grid gap-6">
-              {reviews.map((review) => (
-                <div
-                  key={review.id}
-                  className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-colors"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-imdb-gold text-black rounded-full flex items-center justify-center font-bold text-xl uppercase">
-                      {review.author?.charAt(0) || "U"}
-                    </div>
-                    <div>
-                      <p className="font-bold text-lg">{review.author}</p>
-                      <p className="text-sm text-gray-500">
-                        {new Date(review.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed line-clamp-4 hover:line-clamp-none cursor-pointer transition-all">
-                    "{review.content}"
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 italic">
-              No reviews yet for this movie.
-            </p>
-          )}
-        </section>
+        <Reviews movie={movie} />
 
         <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -192,7 +119,7 @@ export default function MovieDetails() {
           </h2>
           <MovieList movies={recommendations} />
         </section>
-      </div>
+      </Container>
 
       <TrailerModal
         isOpen={isModalOpen}
@@ -200,6 +127,6 @@ export default function MovieDetails() {
         trailerKey={trailer?.key}
         title={movie.title}
       />
-    </div>
+    </Container>
   );
 }
