@@ -40,7 +40,7 @@ export const useMovieDetails = (id) => {
     queryKey: ["movie", id],
     queryFn: () =>
       fetch(
-        `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits`,
+        `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits,recommendations,reviews`,
       ).then((res) => res.json()),
     enabled: !!id,
   });

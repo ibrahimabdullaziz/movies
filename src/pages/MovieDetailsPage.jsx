@@ -19,12 +19,13 @@ export default function MovieDetails() {
 
   const isAdded = isInWatchlist(movie?.id);
   const trailer = movie?.videos?.results?.find((vid) => vid.type === "Trailer");
-  const cast = movie?.credits?.cast?.slice(0, 12); // أول 12 ممثل
+  const cast = movie?.credits?.cast?.slice(0, 12);
   const recommendations = movie?.recommendations?.results?.slice(0, 6);
+
+  const reviews = movie?.reviews?.results?.slice(0, 5);
 
   return (
     <div className="relative min-h-screen bg-imdb-black text-white pb-20">
-      {/* Hero Section - Backdrop */}
       <div className="relative h-[60vh] lg:h-[85vh] w-full">
         <img
           src={`${IMAGE_URL}${movie.backdrop_path}`}
@@ -34,9 +35,7 @@ export default function MovieDetails() {
         <div className="absolute inset-0 bg-gradient-to-t from-imdb-black via-imdb-black/40 to-transparent" />
       </div>
 
-      {/* Main Content */}
       <div className="relative -mt-64 px-6 lg:px-16 space-y-16">
-        {/* Poster & Info Area */}
         <div className="flex flex-col lg:flex-row gap-10 items-end lg:items-start">
           <img
             src={`${IMAGE_URL}${movie.poster_path}`}
@@ -75,7 +74,6 @@ export default function MovieDetails() {
               {movie.overview}
             </p>
 
-            {/* Actions */}
             <div className="flex flex-wrap gap-4 pt-4">
               <button
                 onClick={() => setIsModalOpen(true)}
@@ -93,7 +91,6 @@ export default function MovieDetails() {
           </div>
         </div>
 
-        {/* Cast Section */}
         <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
             <span className="w-2 h-8 bg-imdb-gold rounded-full" /> Top Cast
@@ -127,7 +124,6 @@ export default function MovieDetails() {
           </div>
         </section>
 
-        {/* Detailed Info Grid */}
         <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-white/5 rounded-3xl border border-white/10">
           <div>
             <p className="text-gray-400 text-sm uppercase tracking-widest">
@@ -153,7 +149,42 @@ export default function MovieDetails() {
           </div>
         </section>
 
-        {/* Recommendations */}
+        <section className="space-y-8">
+          <h2 className="text-3xl font-bold flex items-center gap-3">
+            <span className="w-2 h-8 bg-imdb-gold rounded-full" /> User Reviews
+          </h2>
+
+          {reviews?.length > 0 ? (
+            <div className="grid gap-6">
+              {reviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-colors"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-imdb-gold text-black rounded-full flex items-center justify-center font-bold text-xl uppercase">
+                      {review.author?.charAt(0) || "U"}
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg">{review.author}</p>
+                      <p className="text-sm text-gray-500">
+                        {new Date(review.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 leading-relaxed line-clamp-4 hover:line-clamp-none cursor-pointer transition-all">
+                    "{review.content}"
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 italic">
+              No reviews yet for this movie.
+            </p>
+          )}
+        </section>
+
         <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
             <span className="w-2 h-8 bg-imdb-gold rounded-full" /> More Like
