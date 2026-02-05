@@ -20,12 +20,14 @@ export function TrailerProvider({ children }) {
   return (
     <TrailerContext.Provider value={{ openTrailer, closeTrailer }}>
       {children}
-      <TrailerModal
-        isOpen={isOpen}
-        onClose={closeTrailer}
-        movieId={selectedMovie?.id}
-        title={selectedMovie?.title}
-      />
+      {isOpen && (
+        <TrailerModal
+          isOpen={isOpen}
+          onClose={closeTrailer}
+          movieId={selectedMovie?.id}
+          title={selectedMovie?.title}
+        />
+      )}
     </TrailerContext.Provider>
   );
 }

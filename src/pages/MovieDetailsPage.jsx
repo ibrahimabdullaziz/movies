@@ -22,10 +22,6 @@ export default function MovieDetails() {
   const { toggleWatchlist, isInWatchlist } = useWatchlist();
   const { openTrailer } = useTrailer();
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [id]);
-
   if (isLoading) {
     return <MovieDetailsSkeleton />;
   }
@@ -42,18 +38,22 @@ export default function MovieDetails() {
   const recommendations = movie?.recommendations?.results?.slice(0, 6);
 
   return (
-    <Container classes="relative min-h-screen bg-imdb-black text-white pb-20 overflow-x-hidden">
-      <BackdropImage
-        path={movie.backdrop_path}
-        title={movie.title}
-        isCard={false}
-        size="original"
-        priority={true}
-      />
+    <div className="relative min-h-screen bg-imdb-black text-white pb-20 overflow-hidden">
+      {/* Backdrop Layer */}
+      <div className="absolute inset-0 z-0">
+        <BackdropImage
+          path={movie.backdrop_path}
+          title={movie.title}
+          isCard={false}
+          size="original"
+          priority={true}
+        />
+      </div>
 
-      <Container classes="relative z-20 pt-[18vh] lg:pt-[28vh] px-6 lg:px-20 space-y-24">
-        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start animate-fade-in -mt-15 lg:-mt-35">
-          <div className="shrink-0 transform hover:scale-105 transition-all duration-500 shadow-[20px_20px_60px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden  relative z-30 lg:pt-10">
+      {/* Content Layer */}
+      <Container classes="relative z-10 pt-[25vh] lg:pt-[35vh] px-6 lg:px-20">
+        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-end -mt-16 lg:-mt-32 mb-20">
+          <div className="shrink-0 transform hover:scale-105 transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden relative z-20 w-64 lg:w-80 border border-white/10">
             <Poster
               path={movie.poster_path}
               title={movie.title}
@@ -62,7 +62,7 @@ export default function MovieDetails() {
             />
           </div>
 
-          <Container classes="flex-1 space-y-8 relative z-30 lg:pt-10">
+          <div className="flex-1 space-y-6 pb-4">
             <GenreList genres={movie.genres} />
             <MovieInfo movie={movie} />
             <ActionButtons
@@ -71,7 +71,7 @@ export default function MovieDetails() {
               toggleWatchlist={toggleWatchlist}
               isAdded={isAdded}
             />
-          </Container>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24">
@@ -86,6 +86,6 @@ export default function MovieDetails() {
 
         <MovieRecommendations recommendations={recommendations} />
       </Container>
-    </Container>
+    </div>
   );
 }

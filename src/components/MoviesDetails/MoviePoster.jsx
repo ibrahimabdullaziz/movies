@@ -4,21 +4,16 @@ export function Poster({ path, title, isCard = false, size = "w500", priority = 
   if (!path) return null;
 
   return (
-    <div className={`shrink-0 ${isCard ? "w-full h-full" : "group relative"}`}>
+    <div className={`relative overflow-hidden bg-surface aspect-[2/3] ${isCard ? "w-full h-full" : "w-full max-w-[320px] rounded-xl shadow-2xl border border-white/10"}`}>
       <img
         src={`${BASE_IMAGE_URL}${size}${path}`}
-        className={`${
-          isCard
-            ? "w-full h-full object-cover"
-            : "w-64 lg:w-80 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 group-hover:border-imdb-gold/50 transition-all duration-500 group-hover:scale-[1.02]"
-        }`}
+        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         alt={title}
         loading={priority ? "eager" : "lazy"}
         fetchpriority={priority ? "high" : "low"}
       />
-
       {!isCard && (
-        <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10  transition-all" />
+        <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10 pointer-events-none" />
       )}
     </div>
   );

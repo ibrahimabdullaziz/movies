@@ -1,5 +1,5 @@
 import { memo, useCallback } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
 import Metadata from "../MoviesDetails/MovieMetadata";
@@ -30,16 +30,16 @@ const MovieRowCard = memo(({ movie }) => {
   const rating = formatRating(movie?.vote_average);
 
   return (
-    <motion.div
+    <m.div
       initial="initial"
       variants={cardVariants}
       whileHover="expanded"
       onClick={handleNavigate}
-      className="relative cursor-pointer flex-none w-[240px] h-[135px]"
+      className="relative cursor-pointer flex-none w-[240px] aspect-video rounded-lg overflow-hidden bg-surface shadow-2xl ring-1 ring-white/10"
       style={{ originX: 0.5, originY: 0.5 }}
     >
-      <div className="relative w-full h-full overflow-hidden rounded-lg bg-surface shadow-2xl ring-1 ring-white/10">
-        <motion.div
+      <div className="relative w-full h-full">
+        <m.div
           variants={{ initial: { opacity: 1 }, expanded: { opacity: 0 } }}
           className="absolute inset-0 z-10"
         >
@@ -60,9 +60,9 @@ const MovieRowCard = memo(({ movie }) => {
                 </div>
              </div>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={{ initial: { opacity: 0 }, expanded: { opacity: 1 } }}
           className="absolute inset-0 z-0"
         >
@@ -72,9 +72,9 @@ const MovieRowCard = memo(({ movie }) => {
             size="w780"
             isCard
           />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="absolute inset-0 z-20 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-3"
           initial={{ opacity: 0 }}
           variants={{ expanded: { opacity: 1 } }}
@@ -92,16 +92,16 @@ const MovieRowCard = memo(({ movie }) => {
           </div>
 
           <Buttons movie={movie} />
-        </motion.div>
+        </m.div>
 
-        <motion.div 
+        <m.div 
           className="absolute top-1 right-1 bg-black/60 px-1.5 py-0.5 rounded text-[8px] font-bold text-imdb-gold border border-white/10"
           variants={{ initial: { opacity: 0 }, expanded: { opacity: 1 } }}
         >
           ★ {rating}
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   );
 });
 
