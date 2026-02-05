@@ -1,8 +1,10 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { useSearchMovies } from "../hooks/useSearch";
-import MovieCard from "../components/movies/MovieCard";
+import MovieList from "../components/movies/MoviesList";
 import { useEffect } from "react";
 import Pagination from "../components/layout/Pagination";
+import ErrorState from "../components/UI/ErrorState";
+import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,20 +46,10 @@ export default function SearchPage() {
         )}
       </div>
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-          {[...Array(12)].map((_, i) => (
-            <div key={i} className="aspect-[2/3] w-full">
-              <Skeleton className="h-full w-full rounded-xl" />
-            </div>
-          ))}
-        </div>
+        <MovieGridSkeleton />
       ) : movies.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-            {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
+          <MovieList movies={movies} />
 
           {totalPages > 1 && (
             <Pagination
@@ -68,14 +60,14 @@ export default function SearchPage() {
           )}
         </>
       ) : (
-        <div className="text-center py-32 flex flex-col items-center gap-4">
-          <span className="text-6xl grayscale opacity-30">🔍</span>
-          <p className="text-gray-500 text-xl">
-            We couldn't find any movies for "{query}"
-          </p>
+        <div className="flex flex-col items-center justify-center pt-20">
+          <ErrorState
+            type="empty"
+            message={`We couldn't find any movies for "${query}"`}
+          />
           <Link
             to="/"
-            className="text-imdb-gold hover:underline font-bold transition-all"
+            className="mt-6 text-imdb-gold hover:underline font-bold transition-all"
           >
             Back to Home
           </Link>

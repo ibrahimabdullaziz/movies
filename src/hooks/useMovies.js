@@ -53,7 +53,6 @@ export const useMoviesByGenre = (genreId, page = 1, sortBy = "popularity.desc") 
 };
 
 export const useMovieDetails = (id) => {
-  console.log("Hook received ID:", id);
   return useQuery({
     queryKey: ["movie", id],
     queryFn: () =>

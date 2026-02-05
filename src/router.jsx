@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy } from "react";
 import App from "./App";
-import Home from "./pages/Home";
-import TrendingPage from "./pages/TrendingPage";
-import GenrePage from "./pages/GenrePage";
-import MovieDetails from "./pages/MovieDetailsPage";
-import WatchlistPage from "./pages/WatchlistPage";
-import SearchPage from "./pages/SearchPage";
-import ActorPage from "./pages/ActorPage";
 import RouteErrorBoundary from "./components/common/RouteErrorBoundary";
 import ErrorState from "./components/UI/ErrorState";
+
+const Home = lazy(() => import("./pages/Home"));
+const TrendingPage = lazy(() => import("./pages/TrendingPage"));
+const GenrePage = lazy(() => import("./pages/GenrePage"));
+const MovieDetails = lazy(() => import("./pages/MovieDetailsPage"));
+const WatchlistPage = lazy(() => import("./pages/WatchlistPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const ActorPage = lazy(() => import("./pages/ActorPage"));
 
 export const router = createBrowserRouter([
   {
