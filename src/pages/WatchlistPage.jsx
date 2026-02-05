@@ -2,6 +2,7 @@ import { useState } from "react";
 import MovieCard from "../components/movies/MovieCard";
 import { useWatchlist } from "../hooks/useWatchList.js";
 import Pagination from "../components/layout/Pagination";
+import ErrorState from "../components/UI/ErrorState";
 
 export default function WatchlistPage() {
   const { watchlist } = useWatchlist();
@@ -27,11 +28,7 @@ export default function WatchlistPage() {
       </div>
 
       {watchlist.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-[50vh] text-gray-500">
-          <p className="text-2xl font-semibold">
-            Your list is looking a bit empty...
-          </p>
-        </div>
+        <ErrorState type="empty" message="Your list is looking a bit empty..." />
       ) : (
         <>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">

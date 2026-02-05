@@ -6,6 +6,7 @@ import Hero from "../components/layout/Hero";
 import SortMenu from "../components/UI/SortMenu";
 import { Link } from "react-router-dom";
 import MovieRowSkeleton from "../components/skeletons/MovieRowSkeleton";
+import SectionHeader from "../components/common/SectionHeader";
 
 export default function Home() {
   const [sortBy, setSortBy] = useState("popularity.desc");
@@ -22,21 +23,15 @@ export default function Home() {
         className="container mx-auto px-4 py-12 space-y-12"
       >
         <div className=" bg-imdb-black pb-3">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h2 className="text-3xl font-black italic tracking-tighter text-white flex items-center gap-3">
-              <span className="w-1.5 h-8 bg-imdb-gold rounded-full" />
-              EXPLORE MOVIES
-            </h2>
-            <div className="flex items-center gap-4">
-              <Link
-                to="/trending"
-                className="text-sm text-imdb-gold font-bold hover:underline"
-              >
-                EXPLORE ALL &rarr;
-              </Link>
-              <SortMenu onSortChange={(value) => setSortBy(value)} />
-            </div>
-          </div>
+          <SectionHeader title="EXPLORE MOVIES">
+            <Link
+              to="/trending"
+              className="text-sm text-imdb-gold font-bold hover:underline"
+            >
+              EXPLORE ALL &rarr;
+            </Link>
+            <SortMenu onSortChange={(value) => setSortBy(value)} />
+          </SectionHeader>
 
           {isDiscoveryLoading ? (
             <MovieRowSkeleton />
