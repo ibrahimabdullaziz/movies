@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useActorData } from "../hooks/useMovies";
 import MovieCard from "../components/movies/MovieCard";
+import ActorSkeleton from "../components/skeletons/ActorSkeleton";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
@@ -9,11 +10,7 @@ export default function ActorPage() {
   const { details, movies } = useActorData(id);
 
   if (details.isLoading || movies.isLoading)
-    return (
-      <div className="pt-40 text-center text-white">
-        Loading Actor Profile...
-      </div>
-    );
+    return <ActorSkeleton />;
 
   const actor = details.data;
   const actorMovies = movies.data?.cast

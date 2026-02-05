@@ -11,7 +11,7 @@ import Cast from "../components/actors/Cast";
 import { States } from "../components/movies/MovieStates";
 import { Reviews } from "../components/movies-details/Reviews";
 import { useTrailer } from "../context/TrailerContext";
-
+import MovieDetailsSkeleton from "../components/skeletons/MovieDetailsSkeleton";
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
 export default function MovieDetails() {
@@ -23,6 +23,10 @@ export default function MovieDetails() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
+
+  if (isLoading) {
+    return <MovieDetailsSkeleton />;
+  }
 
   if (isError || !movie)
     return (

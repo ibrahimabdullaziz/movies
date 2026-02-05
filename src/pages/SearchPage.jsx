@@ -3,6 +3,7 @@ import { useSearchMovies } from "../hooks/useSearch";
 import MovieCard from "../components/movies/MovieCard";
 import { useEffect, useState } from "react";
 import Pagination from "../components/layout/Pagination";
+import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,9 +45,11 @@ export default function SearchPage() {
         )}
       </div>
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 animate-pulse">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
           {[...Array(12)].map((_, i) => (
-            <div key={i} className="bg-white/5 aspect-[2/3] rounded-xl"></div>
+            <div key={i} className="aspect-[2/3] w-full">
+              <Skeleton className="h-full w-full rounded-xl" />
+            </div>
           ))}
         </div>
       ) : movies.length > 0 ? (

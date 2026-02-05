@@ -3,6 +3,7 @@ import { useTrendingMovies } from "../hooks/useMovies";
 import MovieList from "../components/movies/MoviesList";
 import Header from "../components/common/Header";
 import Pagination from "../components/layout/Pagination";
+import Skeleton from "../components/UI/Skeleton";
 
 export default function TrendingPage() {
   const [page, setPage] = useState(1);
@@ -17,8 +18,12 @@ export default function TrendingPage() {
         className={`transition-opacity duration-300 ${isPlaceholderData ? "opacity-50" : "opacity-100"}`}
       >
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-imdb-gold"></div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+            {[...Array(12)].map((_, i) => (
+              <div key={i} className="aspect-[2/3] w-full">
+                <Skeleton className="h-full w-full rounded-xl" />
+              </div>
+            ))}
           </div>
         ) : (
           <>

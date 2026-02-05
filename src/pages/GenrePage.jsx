@@ -5,6 +5,7 @@ import Pagination from "../components/layout/Pagination";
 import MovieList from "../components/movies/MoviesList";
 import Header from "../components/common/Header";
 import SortMenu from "../components/UI/SortMenu";
+import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
 
 export default function GenrePage() {
   const { id, name } = useParams();
@@ -26,11 +27,7 @@ export default function GenrePage() {
         }`}
       >
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 animate-pulse">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="bg-white/5 aspect-[2/3] rounded-xl" />
-            ))}
-          </div>
+          <MovieGridSkeleton />
         ) : (
           <>
             <MovieList movies={data?.results} />

@@ -5,6 +5,7 @@ import { useGenres, useDiscoverMovies } from "../hooks/useMovies";
 import Hero from "../components/layout/Hero";
 import SortMenu from "../components/UI/SortMenu";
 import { Link } from "react-router-dom";
+import MovieRowSkeleton from "../components/skeletons/MovieRowSkeleton";
 
 export default function Home() {
   const [sortBy, setSortBy] = useState("popularity.desc");
@@ -38,19 +39,17 @@ export default function Home() {
           </div>
 
           {isDiscoveryLoading ? (
-            <div className="h-64 bg-white/5 animate-pulse rounded-xl" />
+            <MovieRowSkeleton />
           ) : (
-            <MovieRow
-              movies={movies?.slice(0, 10)}
-              viewAllPath="/trending"
-            />
+            <MovieRow movies={movies?.slice(0, 10)} viewAllPath="/trending" />
           )}
         </div>
 
         {isGenresLoading ? (
-          <div className="space-y-8 p-8">
-            <div className="h-40 bg-white/5 animate-pulse rounded-xl" />
-            <div className="h-40 bg-white/5 animate-pulse rounded-xl" />
+          <div className="space-y-12">
+            {[...Array(3)].map((_, i) => (
+              <MovieRowSkeleton key={i} withTitle />
+            ))}
           </div>
         ) : (
           genresData?.genres?.map((genre) => (

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useMovieVideos } from "../../hooks/useMovies";
+import TrailerSkeleton from "../skeletons/TrailerSkeleton";
 
 export default function TrailerModel({
   isOpen,
@@ -40,10 +41,7 @@ export default function TrailerModel({
             </button>
 
             {isLoading ? (
-              <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-                <div className="w-12 h-12 border-4 border-imdb-gold border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-imdb-gold font-bold">Loading Trailer...</p>
-              </div>
+              <TrailerSkeleton />
             ) : finalKey ? (
               <iframe
                 className="w-full h-full"
