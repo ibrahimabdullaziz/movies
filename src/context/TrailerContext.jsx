@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import TrailerModal from "../components/movies/TrailerModel";
+import TrailerModal from "../components/Movies/TrailerModel";
 
 const TrailerContext = createContext();
 

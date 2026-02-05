@@ -5,14 +5,13 @@ import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation(); // لمراقبة تغيير الصفحة
+  const location = useLocation();
   const { watchlist } = useWatchlist();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  // التأكد من قفل المنيو تلقائياً عند الانتقال لأي صفحة جديدة
   useEffect(() => {
     closeMenu();
   }, [location.pathname]);

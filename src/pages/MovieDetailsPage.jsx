@@ -2,18 +2,18 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../hooks/useMovies";
 import { useWatchlist } from "../hooks/useWatchList";
-import { BackdropImage } from "../components/movies-details/BackdropImage";
-import { Poster } from "../components/movies-details/MoviePoster";
+import { BackdropImage } from "../components/MoviesDetails/BackdropImage";
+import { Poster } from "../components/MoviesDetails/MoviePoster";
 import Container from "../components/UI/Container";
-import Cast from "../components/actors/Cast";
-import { States } from "../components/movies/MovieStates";
-import { Reviews } from "../components/movies-details/Reviews";
+import Cast from "../components/Actors/Cast";
+import { States } from "../components/Movies/MovieStates";
+import { Reviews } from "../components/MoviesDetails/Reviews";
 import { useTrailer } from "../context/TrailerContext";
-import MovieDetailsSkeleton from "../components/skeletons/MovieDetailsSkeleton";
-import GenreList from "../components/movies-details/GenreList";
-import MovieInfo from "../components/movies-details/MovieInfo";
-import ActionButtons from "../components/movies-details/ActionButtons";
-import MovieRecommendations from "../components/movies-details/MovieRecommendations";
+import MovieDetailsSkeleton from "../components/Skeletons/MovieDetailsSkeleton";
+import GenreList from "../components/MoviesDetails/GenreList";
+import MovieInfo from "../components/MoviesDetails/MovieInfo";
+import ActionButtons from "../components/MoviesDetails/ActionButtons";
+import MovieRecommendations from "../components/MoviesDetails/MovieRecommendations";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 

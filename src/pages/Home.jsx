@@ -1,12 +1,12 @@
 import { useState } from "react";
-import MovieRow from "../components/movies/MovieRow";
-import GenreRow from "../components/movies/GenreRow";
+import MovieRow from "../components/Movies/MovieRow";
+import GenreRow from "../components/Movies/GenreRow";
 import { useGenres, useDiscoverMovies } from "../hooks/useMovies";
-import Hero from "../components/layout/Hero";
+import Hero from "../components/Layout/Hero";
 import SortMenu from "../components/UI/SortMenu";
 import { Link } from "react-router-dom";
-import MovieRowSkeleton from "../components/skeletons/MovieRowSkeleton";
-import SectionHeader from "../components/common/SectionHeader";
+import MovieRowSkeleton from "../components/Skeletons/MovieRowSkeleton";
+import SectionHeader from "../components/Common/SectionHeader";
 
 export default function Home() {
   const [sortBy, setSortBy] = useState("popularity.desc");

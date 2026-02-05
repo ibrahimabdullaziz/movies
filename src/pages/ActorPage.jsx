@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useActorData } from "../hooks/useMovies";
-import MovieCard from "../components/movies/MovieCard";
-import ActorSkeleton from "../components/skeletons/ActorSkeleton";
-import ActorProfile from "../components/actors/ActorProfile";
+import MovieCard from "../components/Movies/MovieCard";
+import ActorSkeleton from "../components/Skeletons/ActorSkeleton";
+import ActorProfile from "../components/Actors/ActorProfile";
 
 export default function ActorPage() {
   const { id } = useParams();

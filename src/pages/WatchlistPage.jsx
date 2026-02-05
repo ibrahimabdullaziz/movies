@@ -1,7 +1,7 @@
 import { useState } from "react";
-import MovieCard from "../components/movies/MovieCard";
+import MovieCard from "../components/Movies/MovieCard";
 import { useWatchlist } from "../hooks/useWatchList.js";
-import Pagination from "../components/layout/Pagination";
+import Pagination from "../components/Layout/Pagination";
 import ErrorState from "../components/UI/ErrorState";
 
 export default function WatchlistPage() {

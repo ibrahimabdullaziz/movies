@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useMoviesByGenre } from "../hooks/useMovies";
-import Pagination from "../components/layout/Pagination";
-import MovieList from "../components/movies/MovieList";
-import Header from "../components/common/Header";
+import Pagination from "../components/Layout/Pagination";
+import MovieList from "../components/Movies/MovieList";
+import Header from "../components/Common/Header";
 import SortMenu from "../components/UI/SortMenu";
-import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
+import MovieGridSkeleton from "../components/Skeletons/MovieGridSkeleton";
 
 export default function GenrePage() {
   const { id, name } = useParams();

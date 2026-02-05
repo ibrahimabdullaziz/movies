@@ -1,10 +1,10 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { useSearchMovies } from "../hooks/useSearch";
-import MovieList from "../components/movies/MovieList";
+import MovieList from "../components/Movies/MovieList";
 import { useEffect } from "react";
-import Pagination from "../components/layout/Pagination";
+import Pagination from "../components/Layout/Pagination";
 import ErrorState from "../components/UI/ErrorState";
-import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
+import MovieGridSkeleton from "../components/Skeletons/MovieGridSkeleton";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();

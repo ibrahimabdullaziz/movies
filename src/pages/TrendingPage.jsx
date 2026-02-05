@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useTrendingMovies } from "../hooks/useMovies";
-import MovieList from "../components/movies/MovieList";
-import Header from "../components/common/Header";
-import Pagination from "../components/layout/Pagination";
+import MovieList from "../components/Movies/MovieList";
+import Header from "../components/Common/Header";
+import Pagination from "../components/Layout/Pagination";
 import Skeleton from "../components/UI/Skeleton";
 
 export default function TrendingPage() {

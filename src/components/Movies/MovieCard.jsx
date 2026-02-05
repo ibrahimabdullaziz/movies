@@ -1,9 +1,9 @@
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
-import { Poster } from "../movies-details/MoviePoster";
+import { Poster } from "../MoviesDetails/MoviePoster";
 import Container from "../UI/Container";
-import Metadata from "../movies-details/MovieMetadata";
+import Metadata from "../MoviesDetails/MovieMetadata";
 import Buttons from "../UI/Buttons";
 
 export default function MovieCard({ movie }) {
