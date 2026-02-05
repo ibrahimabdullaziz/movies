@@ -15,7 +15,6 @@ import MovieInfo from "../components/MoviesDetails/MovieInfo";
 import ActionButtons from "../components/MoviesDetails/ActionButtons";
 import MovieRecommendations from "../components/MoviesDetails/MovieRecommendations";
 
-const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -42,24 +41,24 @@ export default function MovieDetails() {
   const cast = movie?.credits?.cast?.slice(0, 12);
   const recommendations = movie?.recommendations?.results?.slice(0, 6);
 
-  const BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/original";
-
   return (
     <Container classes="relative min-h-screen bg-imdb-black text-white pb-20 overflow-x-hidden">
       <BackdropImage
-        url={BACKDROP_BASE_URL}
         path={movie.backdrop_path}
         title={movie.title}
         isCard={false}
+        size="original"
+        priority={true}
       />
 
       <Container classes="relative z-20 pt-[18vh] lg:pt-[28vh] px-6 lg:px-20 space-y-24">
         <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start animate-fade-in -mt-15 lg:-mt-35">
           <div className="shrink-0 transform hover:scale-105 transition-all duration-500 shadow-[20px_20px_60px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden  relative z-30 lg:pt-10">
             <Poster
-              url={IMAGE_URL}
               path={movie.poster_path}
               title={movie.title}
+              size="w500"
+              priority={true}
             />
           </div>
 
@@ -77,7 +76,7 @@ export default function MovieDetails() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24">
           <div className="lg:col-span-2 space-y-24">
-            <Cast cast={cast} image_url={IMAGE_URL} />
+            <Cast cast={cast} />
             <Reviews movie={movie} />
           </div>
           <div className="space-y-12">

@@ -1,13 +1,11 @@
 import MovieRow from "./MovieRow";
 import { useMoviesByGenre } from "../../hooks/useMovies";
+import MovieRowSkeleton from "../Skeletons/MovieRowSkeleton";
 
 export default function GenreRow({ genre }) {
   const { data: movies, isLoading } = useMoviesByGenre(genre.id);
 
-  if (isLoading)
-    return (
-      <div className="h-48 bg-surface/10 animate-pulse my-4 mx-8 rounded-lg" />
-    );
+  if (isLoading) return <MovieRowSkeleton withTitle />;
 
   return (
     <MovieRow

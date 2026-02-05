@@ -1,4 +1,8 @@
-export function BackdropImage({ url, path, title, isCard = false }) {
+const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
+
+export function BackdropImage({ path, title, isCard = false, size = "w1280", priority = false }) {
+  if (!path) return null;
+
   return (
     <div
       className={`absolute top-0 left-0 w-full ${
@@ -6,9 +10,11 @@ export function BackdropImage({ url, path, title, isCard = false }) {
       } overflow-hidden z-0 bg-imdb-black`}
     >
       <img
-        src={`${url}${path}`}
+        src={`${BASE_IMAGE_URL}${size}${path}`}
         className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-1000"
         alt={title}
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "low"}
       />
 
       <div className="absolute inset-0 bg-black/40 z-10" />

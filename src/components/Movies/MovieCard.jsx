@@ -1,4 +1,4 @@
-const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
+import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
 import { Poster } from "../MoviesDetails/MoviePoster";
@@ -6,18 +6,22 @@ import Container from "../UI/Container";
 import Metadata from "../MoviesDetails/MovieMetadata";
 import Buttons from "../UI/Buttons";
 
-export default function MovieCard({ movie }) {
+const MovieCard = memo(({ movie }) => {
   const navigate = useNavigate();
 
   const rating = formatRating(movie?.vote_average);
 
+  const handleNavigate = useCallback(() => {
+    navigate(`/movie/${movie.id}`);
+  }, [navigate, movie.id]);
+
   return (
     <div
-      onClick={() => navigate(`/movie/${movie.id}`)}
+      onClick={handleNavigate}
       className="group relative bg-surface rounded-xl overflow-hidden hover:ring-2 hover:ring-imdb-gold/50 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-imdb-gold/20"
     >
       <Container classes="relative aspect-[2/3] overflow-hidden">
-        <Poster url={IMAGE_URL} path={movie.poster_path} title={movie.title} />
+        <Poster path={movie.poster_path} title={movie.title} size="w300" />
 
         <Container classes="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-[3px] p-4 flex flex-col justify-end">
           <Container classes="mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
@@ -47,4 +51,6 @@ export default function MovieCard({ movie }) {
       </div>
     </div>
   );
-}
+});
+
+export default MovieCard;

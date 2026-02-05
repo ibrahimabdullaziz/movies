@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
-export default function Cast({ cast, image_url }) {
+const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w185";
+
+export default function Cast({ cast }) {
   if (!cast || cast.length === 0) return null;
 
   return (
@@ -22,9 +24,10 @@ export default function Cast({ cast, image_url }) {
               <img
                 src={
                   person.profile_path
-                    ? `${image_url}${person.profile_path}`
+                    ? `${BASE_IMAGE_URL}${person.profile_path}`
                     : "https://via.placeholder.com/200x200?text=No+Img"
                 }
+                loading="lazy"
                 className="relative w-full h-full object-cover rounded-full border-2 border-white/10 group-hover:border-imdb-gold transition-all duration-300 group-hover:scale-105"
                 alt={person.name}
               />

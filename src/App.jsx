@@ -1,23 +1,21 @@
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
+import { LazyMotion, domMax } from "framer-motion";
 import Navbar from "./components/Layout/NavBar";
 import { TrailerProvider } from "./context/TrailerContext";
+import HeroSkeleton from "./components/Skeletons/HeroSkeleton";
 
 function App() {
   return (
     <div className="bg-imdb-black min-h-screen">
-      <TrailerProvider>
-        <Navbar />
-        <Suspense
-          fallback={
-            <div className="flex justify-center items-center h-screen">
-              <div className="w-12 h-12 border-4 border-imdb-gold border-t-transparent rounded-full animate-spin" />
-            </div>
-          }
-        >
-          <Outlet />
-        </Suspense>
-      </TrailerProvider>
+      <LazyMotion features={domMax} strict>
+        <TrailerProvider>
+          <Navbar />
+          <Suspense fallback={<HeroSkeleton />}>
+            <Outlet />
+          </Suspense>
+        </TrailerProvider>
+      </LazyMotion>
     </div>
   );
 }

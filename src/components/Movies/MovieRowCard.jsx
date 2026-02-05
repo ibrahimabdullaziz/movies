@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
@@ -5,8 +6,6 @@ import Metadata from "../MoviesDetails/MovieMetadata";
 import { Poster } from "../MoviesDetails/MoviePoster";
 import { BackdropImage } from "../MoviesDetails/BackdropImage";
 import Buttons from "../UI/Buttons";
-
-const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 
 const cardVariants = {
   initial: { scale: 1, zIndex: 1 },
@@ -17,14 +16,18 @@ const cardVariants = {
   },
 };
 
-export default function MovieRowCard({ movie }) {
+const MovieRowCard = memo(({ movie }) => {
   const navigate = useNavigate();
+
+  const handleNavigate = useCallback(() => {
+    if (movie?.id) {
+      navigate(`/movie/${movie.id}`);
+    }
+  }, [navigate, movie?.id]);
 
   if (!movie) return null;
 
-  const handleNavigate = () => {
-    navigate(`/movie/${movie.id}`);
-  };
+  const rating = formatRating(movie?.vote_average);
 
   return (
     <motion.div
@@ -41,11 +44,22 @@ export default function MovieRowCard({ movie }) {
           className="absolute inset-0 z-10"
         >
           <Poster
-            url={IMAGE_URL}
             path={movie.poster_path}
             title={movie.title}
+            size="w500"
             isCard
           />
+          {/* Default state title and rating */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-2 transition-opacity duration-300">
+             <div className="flex items-center justify-between gap-1">
+                <h3 className="text-white text-[10px] font-bold truncate max-w-[70%]">
+                  {movie.title}
+                </h3>
+                <div className="flex items-center gap-0.5 text-imdb-gold text-[8px] font-black">
+                  ★ {rating}
+                </div>
+             </div>
+          </div>
         </motion.div>
 
         <motion.div
@@ -53,9 +67,9 @@ export default function MovieRowCard({ movie }) {
           className="absolute inset-0 z-0"
         >
           <BackdropImage
-            url={IMAGE_URL}
             path={movie.backdrop_path}
             title={movie.title}
+            size="w780"
             isCard
           />
         </motion.div>
@@ -80,10 +94,15 @@ export default function MovieRowCard({ movie }) {
           <Buttons movie={movie} />
         </motion.div>
 
-        <div className="absolute top-1 right-1 bg-black/60 px-1.5 py-0.5 rounded text-[8px] font-bold text-imdb-gold border border-white/10">
-          ★ {formatRating(movie?.vote_average)}
-        </div>
+        <motion.div 
+          className="absolute top-1 right-1 bg-black/60 px-1.5 py-0.5 rounded text-[8px] font-bold text-imdb-gold border border-white/10"
+          variants={{ initial: { opacity: 0 }, expanded: { opacity: 1 } }}
+        >
+          ★ {rating}
+        </motion.div>
       </div>
     </motion.div>
   );
-}
+});
+
+export default MovieRowCard;

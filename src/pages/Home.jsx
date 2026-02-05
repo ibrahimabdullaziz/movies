@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import MovieRow from "../components/Movies/MovieRow";
-import GenreRow from "../components/Movies/GenreRow";
 import { useGenres, useDiscoverMovies } from "../hooks/useMovies";
 import Hero from "../components/Layout/Hero";
 import SortMenu from "../components/UI/SortMenu";
 import { Link } from "react-router-dom";
 import MovieRowSkeleton from "../components/Skeletons/MovieRowSkeleton";
 import SectionHeader from "../components/Common/SectionHeader";
+import LazyRow from "../components/Movies/LazyRow";
+
+const GenreRow = lazy(() => import("../components/Movies/GenreRow"));
 
 export default function Home() {
   const [sortBy, setSortBy] = useState("popularity.desc");
@@ -48,7 +50,11 @@ export default function Home() {
           </div>
         ) : (
           genresData?.genres?.map((genre) => (
-            <GenreRow key={genre.id} genre={genre} />
+            <LazyRow key={genre.id} title={genre.name}>
+              <Suspense fallback={<MovieRowSkeleton withTitle />}>
+                <GenreRow genre={genre} />
+              </Suspense>
+            </LazyRow>
           ))
         )}
       </div>
