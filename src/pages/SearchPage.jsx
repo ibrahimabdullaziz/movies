@@ -1,6 +1,6 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { useSearchMovies } from "../hooks/useSearch";
-import MovieList from "../components/movies/MoviesList";
+import MovieList from "../components/movies/MovieList";
 import { useEffect } from "react";
 import Pagination from "../components/layout/Pagination";
 import ErrorState from "../components/UI/ErrorState";

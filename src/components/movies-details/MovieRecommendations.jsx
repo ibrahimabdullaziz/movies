@@ -1,4 +1,4 @@
-import MovieList from "../movies/MoviesList";
+import MovieList from "../movies/MovieList";
 
 export default function MovieRecommendations({ recommendations }) {
   if (!recommendations?.length) return null;

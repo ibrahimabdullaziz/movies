@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTrendingMovies } from "../hooks/useMovies";
-import MovieList from "../components/movies/MoviesList";
+import MovieList from "../components/movies/MovieList";
 import Header from "../components/common/Header";
 import Pagination from "../components/layout/Pagination";
 import Skeleton from "../components/UI/Skeleton";

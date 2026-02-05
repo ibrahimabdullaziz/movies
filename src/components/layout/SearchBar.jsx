@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchMovies } from "../../hooks/useSearch";
 import { useNavigate } from "react-router-dom";
-import SearchResult from "../UI/SerachResultButton";
+import SearchResult from "../UI/SearchResultButton";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");

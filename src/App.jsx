@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
-import Navbar from "./components/layout/navBar";
+import Navbar from "./components/layout/Navbar";
 import { TrailerProvider } from "./context/TrailerContext";
 
 function App() {

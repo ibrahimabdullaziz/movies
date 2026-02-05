@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
 import Metadata from "../movies-details/MovieMetadata";
-import { Poster } from "../movies-details/Movie-poster";
-import { BackdropImage } from "../movies-details/backdrop-image";
+import { Poster } from "../movies-details/MoviePoster";
+import { BackdropImage } from "../movies-details/BackdropImage";
 import Buttons from "../UI/Buttons";
 
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;

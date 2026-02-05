@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useMoviesByGenre } from "../hooks/useMovies";
 import Pagination from "../components/layout/Pagination";
-import MovieList from "../components/movies/MoviesList";
+import MovieList from "../components/movies/MovieList";
 import Header from "../components/common/Header";
 import SortMenu from "../components/UI/SortMenu";
 import MovieGridSkeleton from "../components/skeletons/MovieGridSkeleton";
