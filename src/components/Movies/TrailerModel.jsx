@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useMovieVideos } from "../../hooks/useMovies";
-import TrailerSkeleton from "../skeletons/TrailerSkeleton";
+import TrailerSkeleton from "../Skeletons/TrailerSkeleton";
 
 export default function TrailerModel({
   isOpen,
