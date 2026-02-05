@@ -4,16 +4,21 @@ import { useMoviesByGenre } from "../hooks/useMovies";
 import Pagination from "../components/layout/Pagination";
 import MovieList from "../components/movies/MoviesList";
 import Header from "../components/common/Header";
+import SortMenu from "../components/UI/SortMenu";
 
 export default function GenrePage() {
   const { id, name } = useParams();
   const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState("popularity.desc");
 
-  const { data, isLoading, isPlaceholderData } = useMoviesByGenre(id, page);
+  const { data, isLoading, isPlaceholderData } = useMoviesByGenre(id, page, sortBy);
 
   return (
     <div className="bg-imdb-black min-h-screen pt-24 px-6 lg:px-16">
-      <Header HeadTitle={name} />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+        <Header HeadTitle={name} />
+        <SortMenu onSortChange={(value) => setSortBy(value)} />
+      </div>
 
       <div
         className={`transition-opacity duration-300 ${

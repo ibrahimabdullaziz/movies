@@ -4,7 +4,6 @@ import { useMovieDetails } from "../hooks/useMovies";
 import MovieList from "../components/movies/MoviesList";
 import { formatDate, formatRating, formatRuntime } from "../utils/Formatter";
 import { useWatchlist } from "../hooks/useWatchList";
-import MovieDetailSkeleton from "../components/skeleton/MovieDetailsSkeleton";
 import { BackdropImage } from "../components/movies-details/backdrop-image";
 import { Poster } from "../components/movies-details/Movie-poster";
 import Container from "../components/UI/Container";
@@ -25,7 +24,6 @@ export default function MovieDetails() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
-  if (isLoading) return <MovieDetailSkeleton />;
   if (isError || !movie)
     return (
       <div className="text-white p-20 text-center font-bold">

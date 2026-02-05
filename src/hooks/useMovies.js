@@ -4,6 +4,7 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 import {
   fetchTrendingMovies,
+  fetchDiscoverMovies,
   fetchAllGenres,
   fetchMoviesByGenre,
   fetchActorDetails,
@@ -21,6 +22,16 @@ export const useTrendingMovies = (page) => {
   });
 };
 
+export const useDiscoverMovies = (page = 1, sortBy = "popularity.desc") => {
+  return useQuery({
+    queryKey: ["discoverMovies", page, sortBy],
+    queryFn: () => fetchDiscoverMovies(page, sortBy),
+    placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+  });
+};
+
 export const useGenres = () => {
   return useQuery({
     queryKey: ["genres"],
@@ -30,10 +41,10 @@ export const useGenres = () => {
   });
 };
 
-export const useMoviesByGenre = (genreId, page = 1) => {
+export const useMoviesByGenre = (genreId, page = 1, sortBy = "popularity.desc") => {
   return useQuery({
-    queryKey: ["moviesByGenre", genreId, page],
-    queryFn: () => fetchMoviesByGenre(genreId, page),
+    queryKey: ["moviesByGenre", genreId, page, sortBy],
+    queryFn: () => fetchMoviesByGenre(genreId, page, sortBy),
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
@@ -80,3 +91,4 @@ export const useMovieVideos = (id) => {
     enabled: !!id,
   });
 };
+
