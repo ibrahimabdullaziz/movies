@@ -1,6 +1,6 @@
 const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE_URL;
 import { useNavigate } from "react-router-dom";
-import { formatDate, formatRating } from "../../utils/Formatter";
+import { formatRating } from "../../utils/Formatter";
 import { Poster } from "../movies-details/Movie-poster";
 import Container from "../UI/Container";
 import Metadata from "../movies-details/MovieMetadata";
@@ -12,9 +12,9 @@ export default function MovieCard({ movie }) {
   const rating = formatRating(movie?.vote_average);
 
   return (
-    <Container
+    <div
       onClick={() => navigate(`/movie/${movie.id}`)}
-      classes="group relative bg-surface rounded-xl overflow-hidden hover:ring-2 hover:ring-imdb-gold/50 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-imdb-gold/20"
+      className="group relative bg-surface rounded-xl overflow-hidden hover:ring-2 hover:ring-imdb-gold/50 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-imdb-gold/20"
     >
       <Container classes="relative aspect-[2/3] overflow-hidden">
         <Poster url={IMAGE_URL} path={movie.poster_path} title={movie.title} />
@@ -45,6 +45,6 @@ export default function MovieCard({ movie }) {
           {movie.title}
         </h2>
       </div>
-    </Container>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../hooks/useMovies";
-import TrailerModal from "../components/movies/TrailerModel";
 import MovieList from "../components/movies/MoviesList";
 import { formatDate, formatRating, formatRuntime } from "../utils/Formatter";
 import { useWatchlist } from "../hooks/useWatchList";
@@ -22,102 +21,149 @@ export default function MovieDetails() {
   const { toggleWatchlist, isInWatchlist } = useWatchlist();
   const { openTrailer } = useTrailer();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
   if (isLoading) return <MovieDetailSkeleton />;
+  if (isError || !movie)
+    return (
+      <div className="text-white p-20 text-center font-bold">
+        Error loading movie details.
+      </div>
+    );
 
   const isAdded = isInWatchlist(movie?.id);
-  const trailer = movie?.videos?.results?.find((vid) => vid.type === "Trailer");
   const cast = movie?.credits?.cast?.slice(0, 12);
   const recommendations = movie?.recommendations?.results?.slice(0, 6);
+
+  const BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/original";
 
   return (
     <Container classes="relative min-h-screen bg-imdb-black text-white pb-20 overflow-x-hidden">
       <BackdropImage
-        url={IMAGE_URL}
+        url={BACKDROP_BASE_URL}
         path={movie.backdrop_path}
         title={movie.title}
+        isCard={false}
       />
-      <Container classes="relative pt-[25vh] lg:pt-[35vh] px-6 lg:px-16 space-y-20">
-        <Container classes="flex flex-col lg:flex-row gap-10 items-center lg:items-start text-center lg:text-left">
-          <Poster
-            url={IMAGE_URL}
-            path={movie.poster_path}
-            title={movie.title}
-          />
 
-          <Container classes="flex-1 space-y-6">
-            <Container classes="flex flex-wrap gap-2 justify-center lg:justify-start">
-              {movie.genres?.map((g) => (
-                <span
-                  key={g.id}
-                  className="px-4 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-imdb-gold rounded-full text-xs font-bold uppercase tracking-wider"
-                >
-                  {g.name}
-                </span>
-              ))}
-            </Container>
+      <Container classes="relative z-20 pt-[18vh] lg:pt-[28vh] px-6 lg:px-20 space-y-24">
+        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start animate-fade-in -mt-15 lg:-mt-35">
+          <div className="shrink-0 transform hover:scale-105 transition-all duration-500 shadow-[20px_20px_60px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden  relative z-30 lg:pt-10">
+            <Poster
+              url={IMAGE_URL}
+              path={movie.poster_path}
+              title={movie.title}
+            />
+          </div>
 
-            {/* Title & Tagline */}
-            <Container classes="space-y-2">
-              <h1 className="text-5xl lg:text-8xl font-black tracking-tighter drop-shadow-2xl">
+          <Container classes="flex-1 space-y-8 relative z-30 lg:pt-10">
+            <div className="space-y-4 text-center lg:text-left">
+              <Container classes="flex flex-wrap gap-2 justify-center lg:justify-start">
+                {movie.genres?.map((g) => (
+                  <span
+                    key={g.id}
+                    className="px-3 py-1 bg-imdb-gold/10 border border-imdb-gold/30 text-imdb-gold rounded-md text-[10px] font-black uppercase tracking-tighter backdrop-blur-md"
+                  >
+                    {g.name}
+                  </span>
+                ))}
+              </Container>
+
+              <h1 className="text-5xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[0.9] drop-shadow-2xl">
                 {movie.title}
               </h1>
+
               {movie.tagline && (
-                <p className="text-xl lg:text-2xl text-imdb-gold/80 font-medium italic">
+                <p className="text-xl lg:text-2xl text-imdb-gold/60 font-medium italic">
                   "{movie.tagline}"
                 </p>
               )}
-            </Container>
+            </div>
 
-            <Container classes="flex items-center justify-center lg:justify-start gap-6 text-gray-300 font-bold">
-              <Container classes="flex items-center gap-2">
-                <span className="text-imdb-gold text-2xl">★</span>
-                <span className="text-2xl">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 py-6 border-y border-white/10 uppercase text-[12px] font-bold tracking-widest text-gray-400">
+              <div className="flex items-center gap-2 bg-imdb-gold/10 px-4 py-2 rounded-xl border border-imdb-gold/20 backdrop-blur-md">
+                <span className="text-imdb-gold text-xl">★</span>
+                <span className="text-white text-xl">
                   {formatRating(movie.vote_average)}
                 </span>
-              </Container>
-              <Container classes="h-4 w-[1px] bg-white/20" />
-              <span>{formatDate(movie.release_date)}</span>
-              <div className="h-4 w-[1px] bg-white/20" />
-              <span>{formatRuntime(movie.runtime)}</span>
-            </Container>
+                <span className="text-gray-500 text-xs font-medium ml-1">
+                  / 10
+                </span>
+              </div>
 
-            <p className="text-lg lg:text-xl text-gray-200 max-w-3xl leading-relaxed mx-auto lg:mx-0">
+              <div className="flex items-center gap-3">
+                <span className="text-imdb-gold font-black">RELEASE</span>
+                <span className="text-white">
+                  {formatDate(movie.release_date)}
+                </span>
+              </div>
+
+              <span className="hidden sm:block w-1 h-1 bg-white/20 rounded-full" />
+
+              <div className="flex items-center gap-3">
+                <span className="text-imdb-gold font-black">RUNTIME</span>
+                <span className="text-white">
+                  {formatRuntime(movie.runtime)}
+                </span>
+              </div>
+
+              <span className="hidden sm:block w-1 h-1 bg-white/20 rounded-full" />
+
+              <span className="px-3 py-1 border border-white/20 rounded-lg text-[10px] text-white bg-white/5">
+                {movie.adult ? "18+" : "PG-13"}
+              </span>
+            </div>
+
+            <p className="text-lg lg:text-xl text-white/80 max-w-4xl leading-relaxed text-center lg:text-left font-light drop-shadow-md">
               {movie.overview}
             </p>
 
-            <Container classes="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+            <Container classes="flex flex-wrap justify-center lg:justify-start gap-4 pt-6">
               <button
                 onClick={() => openTrailer(movie)}
-                className="bg-imdb-gold text-black px-10 py-4 rounded-2xl font-black hover:bg-yellow-400 hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(245,197,24,0.3)] flex items-center gap-3"
+                className="group flex items-center gap-2 bg-imdb-gold hover:bg-white text-black px-8 py-3.5 rounded-xl font-bold transition-all duration-300 active:scale-95"
               >
-                <span className="text-xl">▶</span> WATCH TRAILER
+                <span className="text-lg">▶</span>
+                <span className="tracking-tight">WATCH TRAILER</span>
               </button>
 
               <button
                 onClick={() => toggleWatchlist(movie)}
-                className={`px-10 py-4 rounded-2xl font-black border-2 transition-all flex items-center gap-2 ${
+                className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold border transition-all duration-300 active:scale-95 ${
                   isAdded
-                    ? "bg-red-600/10 border-red-600 text-red-500 hover:bg-red-600 hover:text-white"
-                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
+                    ? "bg-red-500/10 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white"
+                    : "bg-white/5 border-white/20 text-white hover:bg-white hover:text-black"
                 }`}
               >
-                {isAdded ? "✕ REMOVE" : "+ WATCHLIST"}
+                <span>{isAdded ? "✕" : "+"}</span>
+                <span className="tracking-tight">
+                  {isAdded ? "REMOVE" : "WATCHLIST"}
+                </span>
               </button>
             </Container>
           </Container>
-        </Container>
+        </div>
 
-        <Cast cast={cast} image_url={IMAGE_URL} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24">
+          <div className="lg:col-span-2 space-y-24">
+            <Cast cast={cast} image_url={IMAGE_URL} />
+            <Reviews movie={movie} />
+          </div>
+          <div className="space-y-12">
+            <States movie={movie} />
+          </div>
+        </div>
 
-        <States movie={movie} />
-
-        <Reviews movie={movie} />
-
-        <section>
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <span className="w-2 h-8 bg-imdb-gold rounded-full" /> More Like
-            This
-          </h2>
+        <section className="pt-24 border-t border-white/5">
+          <div className="flex items-center justify-between mb-16">
+            <h2 className="text-4xl lg:text-5xl font-black italic tracking-tighter flex items-center gap-4">
+              <span className="w-3 h-12 bg-imdb-gold -skew-x-12 rounded-sm" />
+              MORE LIKE THIS
+            </h2>
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-imdb-gold/50 to-transparent ml-8 hidden md:block" />
+          </div>
           <MovieList movies={recommendations} />
         </section>
       </Container>

@@ -16,6 +16,8 @@ export const useTrendingMovies = (page) => {
     queryKey: ["trendingMovies", page],
     queryFn: () => fetchTrendingMovies(page),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -23,6 +25,8 @@ export const useGenres = () => {
   return useQuery({
     queryKey: ["genres"],
     queryFn: fetchAllGenres,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 };
 
@@ -31,6 +35,8 @@ export const useMoviesByGenre = (genreId, page = 1) => {
     queryKey: ["moviesByGenre", genreId, page],
     queryFn: () => fetchMoviesByGenre(genreId, page),
     placeholderData: keepPreviousData,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
     enabled: !!genreId,
   });
 };
@@ -43,6 +49,8 @@ export const useMovieDetails = (id) => {
       fetch(
         `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits,recommendations,reviews`,
       ).then((res) => res.json()),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
     enabled: !!id,
   });
 };
@@ -51,11 +59,15 @@ export function useActorData(id) {
   const details = useQuery({
     queryKey: ["actor", id],
     queryFn: () => fetchActorDetails(id),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 
   const movies = useQuery({
     queryKey: ["actor-movies", id],
     queryFn: () => fetchActorMovies(id),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 
   return { details, movies };

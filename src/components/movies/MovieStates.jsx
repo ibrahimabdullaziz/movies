@@ -1,24 +1,43 @@
 export function States({ movie }) {
   return (
-    <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 p-8 bg-white/5 rounded-3xl border border-white/10">
-      <div>
-        <p className="text-gray-400 text-sm uppercase tracking-widest">
+    <div className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 space-y-6">
+      <h3 className="text-lg font-black text-white border-b border-white/10 pb-4 mb-4">
+        MOVIE INFO
+      </h3>
+
+      <div className="space-y-1">
+        <p className="text-imdb-gold text-xs font-bold uppercase tracking-widest">
           Status
         </p>
-        <p className="text-xl font-bold">{movie.status}</p>
+        <p className="text-white font-medium">{movie.status}</p>
       </div>
-      <div>
-        <p className="text-gray-400 text-sm uppercase tracking-widest">
+
+      <div className="space-y-1">
+        <p className="text-imdb-gold text-xs font-bold uppercase tracking-widest">
           Budget
         </p>
-        <p className="text-xl font-bold">${movie.budget?.toLocaleString()}</p>
+        <p className="text-white font-medium">
+          {movie.budget > 0 ? `$${movie.budget.toLocaleString()}` : "N/A"}
+        </p>
       </div>
-      <div>
-        <p className="text-gray-400 text-sm uppercase tracking-widest">
+
+      <div className="space-y-1">
+        <p className="text-imdb-gold text-xs font-bold uppercase tracking-widest">
           Revenue
         </p>
-        <p className="text-xl font-bold">${movie.revenue?.toLocaleString()}</p>
+        <p className="text-white font-medium">
+          {movie.revenue > 0 ? `$${movie.revenue.toLocaleString()}` : "N/A"}
+        </p>
       </div>
-    </section>
+
+      <div className="space-y-1">
+        <p className="text-imdb-gold text-xs font-bold uppercase tracking-widest">
+          Original Language
+        </p>
+        <p className="text-white font-medium uppercase">
+          {movie.original_language}
+        </p>
+      </div>
+    </div>
   );
 }
