@@ -5,12 +5,12 @@ export default function MovieRow({ title, movies, viewAllPath }) {
   return (
     <div className="my-10">
       {title && (
-        <div className="flex justify-between items-center mb-6 px-8">
-          <h2 className="text-2xl text-white font-bold border-l-4 border-imdb-gold pl-4">
+        <div className="flex justify-between items-center mb-6 px-4 md:px-8">
+          <h2 className="text-xl md:text-2xl text-white font-bold border-l-4 border-imdb-gold pl-3 md:pl-4">
             {title}
           </h2>
           {viewAllPath && (
-            <Link to={viewAllPath} className="text-sm text-imdb-gold font-bold">
+            <Link to={viewAllPath} className="text-xs md:text-sm text-imdb-gold font-bold whitespace-nowrap">
               Explore All &rarr;
             </Link>
           )}

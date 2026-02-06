@@ -1,45 +1,55 @@
-import { useState } from "react";
-import { useTrendingMovies } from "../hooks/useMovies";
+import { useState, Suspense } from "react";
+import { useDiscoverMovies } from "../hooks/useMovies";
 import MovieList from "../components/Movies/MovieList";
 import Header from "../components/Common/Header";
 import Pagination from "../components/Layout/Pagination";
-import Skeleton from "../components/UI/Skeleton";
+import SortMenu from "../components/UI/SortMenu";
+import MovieGridSkeleton from "../components/Skeletons/MovieGridSkeleton";
+
+import ScrollToTop from "../components/UI/ScrollToTop";
 
 export default function TrendingPage() {
   const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState("popularity.desc");
 
-  const { data, isLoading, isPlaceholderData } = useTrendingMovies(page);
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   return (
-    <div className="p-8 pt-24 min-h-screen bg-imdb-black">
-      <Header HeadTitle="Trending " />
-
-      <div
-        className={`transition-opacity duration-300 ${isPlaceholderData ? "opacity-50" : "opacity-100"}`}
-      >
-        {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="aspect-[2/3] w-full">
-                <Skeleton className="h-full w-full rounded-xl" />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <>
-            <MovieList movies={data?.results} />
-
-            <Pagination
-              currentPage={page}
-              totalPages={data?.total_pages}
-              onPageChange={(newPage) => {
-                setPage(newPage);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            />
-          </>
-        )}
+    <div className="p-8 pt-24 min-h-screen bg-imdb-black px-6 lg:px-16">
+      <ScrollToTop trigger={page} />
+      <div className="flex items-center justify-between gap-6 mb-12">
+        <Header HeadTitle="Trending" />
+        <SortMenu onSortChange={(value) => {
+          setSortBy(value);
+          setPage(1);
+        }} />
       </div>
+
+      <Suspense fallback={<MovieGridSkeleton />}>
+        <TrendingContent 
+          page={page} 
+          sortBy={sortBy} 
+          onPageChange={handlePageChange} 
+        />
+      </Suspense>
     </div>
+  );
+}
+
+function TrendingContent({ page, sortBy, onPageChange }) {
+  const { data } = useDiscoverMovies(page, sortBy);
+
+  return (
+    <>
+      <MovieList movies={data?.results} />
+
+      <Pagination
+        currentPage={page}
+        totalPages={data?.total_pages}
+        onPageChange={onPageChange}
+      />
+    </>
   );
 }

@@ -53,7 +53,7 @@ export default function SearchBar() {
             </div>
           ) : (
             <>
-              {results?.results?.slice(0, 6).map((movie) => (
+              {results?.results?.slice(0, 4).map((movie) => (
                 <SearchResult
                   movie={movie}
                   key={movie.id}

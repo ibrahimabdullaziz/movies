@@ -1,11 +1,11 @@
 export default function SectionHeader({ title, children }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-      <h2 className="text-3xl font-black italic tracking-tighter text-white flex items-center gap-3">
-        <span className="w-1.5 h-8 bg-imdb-gold rounded-full" />
+    <div className="flex items-center justify-between gap-4 mb-6">
+      <h2 className="text-xl md:text-3xl font-black italic tracking-tighter text-white flex items-center gap-2 md:gap-3">
+        <span className="w-1 md:w-1.5 h-6 md:h-8 bg-imdb-gold rounded-full" />
         {title}
       </h2>
-      <div className="flex items-center gap-4">{children}</div>
+      <div className="flex items-center gap-2 md:gap-4 shrink-0">{children}</div>
     </div>
   );
 }

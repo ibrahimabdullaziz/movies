@@ -13,10 +13,9 @@ import {
 } from "../services/movieService";
 
 export const useTrendingMovies = (page) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["trendingMovies", page],
     queryFn: () => fetchTrendingMovies(page),
-    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
   });
