@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import TrailerModal from "../components/Movies/TrailerModel";
+import TrailerModel from "../components/Movies/TrailerModel";
 
 const TrailerContext = createContext();
 
@@ -21,7 +21,7 @@ export function TrailerProvider({ children }) {
     <TrailerContext.Provider value={{ openTrailer, closeTrailer }}>
       {children}
       {isOpen && (
-        <TrailerModal
+        <TrailerModel
           isOpen={isOpen}
           onClose={closeTrailer}
           movieId={selectedMovie?.id}

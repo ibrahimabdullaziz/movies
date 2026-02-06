@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { Suspense } from "react";
 import { LazyMotion, domMax, AnimatePresence } from "framer-motion";
-import Navbar from "./components/Layout/NavBar";
+import NavBar from "./components/Layout/NavBar";
 import { TrailerProvider } from "./context/TrailerContext";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import PageTransition from "./components/UI/PageTransition";
@@ -14,7 +14,7 @@ function App() {
       <LazyMotion features={domMax} strict>
         <TrailerProvider>
           <ScrollToTop />
-          <Navbar />
+          <NavBar />
           <AnimatePresence mode="wait">
             <Suspense fallback={null}>
               <PageTransition key={location.pathname}>
