@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { LazyMotion, domMax, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Layout/NavBar";
 import { TrailerProvider } from "./context/TrailerContext";
-import HeroSkeleton from "./components/Skeletons/HeroSkeleton";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import PageTransition from "./components/UI/PageTransition";
 
@@ -17,7 +16,7 @@ function App() {
           <ScrollToTop />
           <Navbar />
           <AnimatePresence mode="wait">
-            <Suspense fallback={<HeroSkeleton />}>
+            <Suspense fallback={null}>
               <PageTransition key={location.pathname}>
                 <Outlet />
               </PageTransition>

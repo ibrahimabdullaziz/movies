@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Suspense } from "react";
 import { useMovieDetails } from "../hooks/useMovies";
 import { useWatchlist } from "../hooks/useWatchList";
 import { BackdropImage } from "../components/MoviesDetails/BackdropImage";
@@ -15,23 +15,22 @@ import MovieInfo from "../components/MoviesDetails/MovieInfo";
 import ActionButtons from "../components/MoviesDetails/ActionButtons";
 import MovieRecommendations from "../components/MoviesDetails/MovieRecommendations";
 
-
 export default function MovieDetails() {
   const { id } = useParams();
-  const { data: movie, isLoading, isError } = useMovieDetails(id);
+
+  return (
+    <Suspense fallback={<MovieDetailsSkeleton />}>
+      <MovieDetailsContent id={id} />
+    </Suspense>
+  );
+}
+
+function MovieDetailsContent({ id }) {
+  const { data: movie } = useMovieDetails(id);
   const { toggleWatchlist, isInWatchlist } = useWatchlist();
   const { openTrailer } = useTrailer();
 
-  if (isLoading) {
-    return <MovieDetailsSkeleton />;
-  }
-
-  if (isError || !movie)
-    return (
-      <div className="text-white p-20 text-center font-bold">
-        Error loading movie details.
-      </div>
-    );
+  if (!movie) return null;
 
   const isAdded = isInWatchlist(movie?.id);
   const cast = movie?.credits?.cast?.slice(0, 12);
@@ -39,7 +38,6 @@ export default function MovieDetails() {
 
   return (
     <div className="relative min-h-screen bg-imdb-black text-white pb-20 overflow-hidden">
-      {/* Backdrop Layer */}
       <div className="absolute inset-0 z-0">
         <BackdropImage
           path={movie.backdrop_path}
@@ -50,10 +48,10 @@ export default function MovieDetails() {
         />
       </div>
 
-      {/* Content Layer */}
-      <Container classes="relative z-10 pt-[25vh] lg:pt-[35vh] px-6 lg:px-20">
-        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-end -mt-16 lg:-mt-32 mb-20">
-          <div className="shrink-0 transform hover:scale-105 transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-2xl overflow-hidden relative z-20 w-64 lg:w-80 border border-white/10">
+      <Container classes="relative z-10 pt-[25vh] lg:pt-[45vh] px-6 lg:px-20">
+        <div className="relative flex flex-col lg:flex-row gap-12 items-center lg:items-start mb-20 min-h-[400px]">
+          {/* Floating Poster */}
+          <div className="shrink-0 lg:absolute lg:-top-48 lg:left-0 transform hover:scale-105 transition-all duration-500 shadow-[0_30px_70px_rgba(0,0,0,0.9)] rounded-2xl overflow-hidden z-30 w-64 lg:w-80 border border-white/10">
             <Poster
               path={movie.poster_path}
               title={movie.title}
@@ -62,7 +60,8 @@ export default function MovieDetails() {
             />
           </div>
 
-          <div className="flex-1 space-y-6 pb-4">
+          {/* Info Content - Offset and perfectly balanced with poster top */}
+          <div className="flex-1 lg:pl-[24rem] lg:-mt-48 space-y-8 pb-4">
             <GenreList genres={movie.genres} />
             <MovieInfo movie={movie} />
             <ActionButtons

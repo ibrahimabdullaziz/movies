@@ -10,7 +10,7 @@ export function Poster({ path, title, isCard = false, size = "w500", priority = 
         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         alt={title}
         loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : "low"}
+        fetchPriority={priority ? "high" : "low"}
       />
       {!isCard && (
         <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10 pointer-events-none" />

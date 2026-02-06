@@ -11,6 +11,7 @@ const MovieDetails = lazy(() => import("./pages/MovieDetailsPage"));
 const WatchlistPage = lazy(() => import("./pages/WatchlistPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const ActorPage = lazy(() => import("./pages/ActorPage"));
+const MovieCastPage = lazy(() => import("./pages/MovieCastPage"));
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: "trending", element: <TrendingPage /> },
       { path: "category/:id/:name", element: <GenrePage /> },
       { path: "movie/:id", element: <MovieDetails /> },
+      { path: "movie/:id/cast", element: <MovieCastPage /> },
       { path: "watchlist", element: <WatchlistPage /> },
       { path: "search", element: <SearchPage /> },
       { path: "actor/:id", element: <ActorPage /> },

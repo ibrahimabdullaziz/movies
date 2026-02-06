@@ -1,4 +1,4 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery, keepPreviousData } from "@tanstack/react-query";
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -23,10 +23,9 @@ export const useTrendingMovies = (page) => {
 };
 
 export const useDiscoverMovies = (page = 1, sortBy = "popularity.desc") => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["discoverMovies", page, sortBy],
     queryFn: () => fetchDiscoverMovies(page, sortBy),
-    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
   });
@@ -53,7 +52,7 @@ export const useMoviesByGenre = (genreId, page = 1, sortBy = "popularity.desc") 
 };
 
 export const useMovieDetails = (id) => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["movie", id],
     queryFn: () =>
       fetch(
@@ -61,7 +60,6 @@ export const useMovieDetails = (id) => {
       ).then((res) => res.json()),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
-    enabled: !!id,
   });
 };
 
@@ -71,6 +69,7 @@ export function useActorData(id) {
     queryFn: () => fetchActorDetails(id),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
+    enabled: !!id,
   });
 
   const movies = useQuery({
@@ -78,6 +77,7 @@ export function useActorData(id) {
     queryFn: () => fetchActorMovies(id),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
+    enabled: !!id,
   });
 
   return { details, movies };

@@ -3,7 +3,6 @@ import { m } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { formatRating } from "../../utils/Formatter";
 import Metadata from "../MoviesDetails/MovieMetadata";
-import { Poster } from "../MoviesDetails/MoviePoster";
 import { BackdropImage } from "../MoviesDetails/BackdropImage";
 import Buttons from "../UI/Buttons";
 
@@ -39,39 +38,26 @@ const MovieRowCard = memo(({ movie }) => {
       style={{ originX: 0.5, originY: 0.5 }}
     >
       <div className="relative w-full h-full">
+        <BackdropImage
+          path={movie.backdrop_path}
+          title={movie.title}
+          size="w780"
+          isCard
+        />
+
+        {/* Initial state overlay with gradient, title and rating */}
         <m.div
           variants={{ initial: { opacity: 1 }, expanded: { opacity: 0 } }}
-          className="absolute inset-0 z-10"
+          className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-3 transition-opacity duration-300"
         >
-          <Poster
-            path={movie.poster_path}
-            title={movie.title}
-            size="w500"
-            isCard
-          />
-          {/* Default state title and rating */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-2 transition-opacity duration-300">
-             <div className="flex items-center justify-between gap-1">
-                <h3 className="text-white text-[10px] font-bold truncate max-w-[70%]">
-                  {movie.title}
-                </h3>
-                <div className="flex items-center gap-0.5 text-imdb-gold text-[8px] font-black">
-                  ★ {rating}
-                </div>
-             </div>
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs font-black truncate drop-shadow-lg leading-tight">
+              {movie.title}
+            </h3>
+            <div className="flex items-center gap-1 text-imdb-gold text-[10px] font-black drop-shadow-md">
+              <span className="text-[12px]">★</span> {rating}
+            </div>
           </div>
-        </m.div>
-
-        <m.div
-          variants={{ initial: { opacity: 0 }, expanded: { opacity: 1 } }}
-          className="absolute inset-0 z-0"
-        >
-          <BackdropImage
-            path={movie.backdrop_path}
-            title={movie.title}
-            size="w780"
-            isCard
-          />
         </m.div>
 
         <m.div

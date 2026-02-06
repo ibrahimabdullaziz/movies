@@ -2,7 +2,7 @@ import Skeleton from "../UI/Skeleton";
 
 export default function HeroSkeleton() {
   return (
-    <div className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-imdb-black">
+    <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-imdb-black pt-20">
       <div className="absolute inset-0 z-0">
         <div className="w-full h-full bg-surface/20 animate-pulse" />
         <div className="absolute inset-0 bg-gradient-to-t from-imdb-black via-transparent to-black/40" />

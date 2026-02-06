@@ -17,11 +17,11 @@ export default function MovieRow({ title, movies, viewAllPath }) {
         </div>
       )}
 
-      <div className="flex items-center overflow-x-scroll gap-6 px-12 py-20 scrollbar-hide group">
+      <div className="flex items-center overflow-x-scroll gap-6 px-12 py-20 scrollbar-hide">
         {movies?.map((movie) => (
           <div
             key={movie.id}
-            className="flex-none transition-all duration-300 group-hover:opacity-50 group-hover:scale-95 hover:!opacity-100 hover:!scale-100"
+            className="flex-none"
           >
             <MovieRowCard movie={movie} />
           </div>

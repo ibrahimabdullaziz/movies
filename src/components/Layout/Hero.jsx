@@ -1,6 +1,6 @@
-import { m, AnimatePresence } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
-import HeroSkeleton from "../Skeletons/HeroSkeleton";
+
 
 export default function Hero() {
   const [highResLoaded, setHighResLoaded] = useState(false);
@@ -16,26 +16,25 @@ export default function Hero() {
   const highResUrl = "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=1280&auto=format&fit=crop";
 
   return (
-    <div className="relative w-full h-[70vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-imdb-black pt-20">
-      {/* Pillar 2: Placeholder/Blur-up (Loads instantly) */}
+    <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-imdb-black pt-20">
+
       <div className="absolute inset-0 z-0 h-full w-full">
         <img
           src={placeholderUrl}
           alt=""
           className={`w-full h-full object-cover blur-2xl scale-110 transition-opacity duration-1000 ${highResLoaded ? 'opacity-0' : 'opacity-100'}`}
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
         />
       </div>
 
-      {/* Pillar 2: High-Res Image (Restored Original) */}
       <div className="absolute inset-0 z-0 h-full w-full">
         <img
           src={highResUrl}
           alt="Hero Background"
           className={`w-full h-full object-cover transition-opacity duration-1000 ${highResLoaded ? 'opacity-100' : 'opacity-0'}`}
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
           onLoad={() => setHighResLoaded(true)}
         />
         <div className="absolute inset-0 bg-black/50" />
@@ -71,7 +70,7 @@ export default function Hero() {
         >
           <button
             onClick={scrollToTrending}
-            className="mt-8 bg-imdb-gold text-black text-lg font-bold py-4 px-10 rounded-full hover:bg-amber-100 hover:text-imdb-gold transition-all shadow-[0_0_20px_rgba(245,197,24,0.3)]"
+            className="mt-8 bg-imdb-gold text-black text-lg font-bold py-4 px-10 rounded-full hover:bg-amber-100 hover:text-imdb-gold transition-all "
           >
             Explore Trending ⬇
           </button>

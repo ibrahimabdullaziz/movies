@@ -8,7 +8,7 @@ export default function ActorPage() {
   const { id } = useParams();
   const { details, movies } = useActorData(id);
 
-  if (details.isLoading || movies.isLoading)
+  if (details.isPending || movies.isPending || details.isLoading || !details.data)
     return <ActorSkeleton />;
 
   const actor = details.data;

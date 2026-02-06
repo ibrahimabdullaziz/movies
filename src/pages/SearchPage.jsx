@@ -1,7 +1,7 @@
 import { useSearchParams, Link } from "react-router-dom";
+import { Suspense, useEffect } from "react";
 import { useSearchMovies } from "../hooks/useSearch";
 import MovieList from "../components/Movies/MovieList";
-import { useEffect } from "react";
 import Pagination from "../components/Layout/Pagination";
 import ErrorState from "../components/UI/ErrorState";
 import MovieGridSkeleton from "../components/Skeletons/MovieGridSkeleton";
@@ -13,12 +13,6 @@ export default function SearchPage() {
   const pageFromUrl = parseInt(searchParams.get("page")) || 1;
   const currentPage = pageFromUrl > 500 ? 500 : pageFromUrl;
 
-  const { data, isLoading, isFetching } = useSearchMovies(query, currentPage);
-
-  const movies = data?.results || [];
-  const totalPages = data?.total_pages || 0;
-  const totalResults = data?.total_results || 0;
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [query, currentPage]);
@@ -29,6 +23,26 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-imdb-black pt-32 px-8 lg:px-16 text-white">
+      <Suspense fallback={<MovieGridSkeleton />}>
+        <SearchContent 
+          query={query} 
+          currentPage={currentPage} 
+          handlePageChange={handlePageChange} 
+        />
+      </Suspense>
+    </div>
+  );
+}
+
+function SearchContent({ query, currentPage, handlePageChange }) {
+  const { data, isFetching } = useSearchMovies(query, currentPage);
+
+  const movies = data?.results || [];
+  const totalPages = data?.total_pages || 0;
+  const totalResults = data?.total_results || 0;
+
+  return (
+    <>
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-l-4 border-imdb-gold pl-4 gap-4">
         <div>
           <h1 className="text-3xl font-black uppercase tracking-tighter">
@@ -39,15 +53,14 @@ export default function SearchPage() {
           </p>
         </div>
 
-        {isFetching && !isLoading && (
+        {isFetching && (
           <div className="text-imdb-gold text-xs font-bold animate-pulse">
             Updating results...
           </div>
         )}
       </div>
-      {isLoading ? (
-        <MovieGridSkeleton />
-      ) : movies.length > 0 ? (
+
+      {movies.length > 0 ? (
         <>
           <MovieList movies={movies} />
 
@@ -73,6 +86,6 @@ export default function SearchPage() {
           </Link>
         </div>
       )}
-    </div>
+    </>
   );
 }
