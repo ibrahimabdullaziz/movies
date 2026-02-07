@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useMovieVideos } from "../../hooks/useMovies";
-import TrailerSkeleton from "../Skeletons/TrailerSkeleton";
+// TrailerSkeleton removed in favor of inline spinner
 
 export default function TrailerModel({
   isOpen,
@@ -41,7 +41,15 @@ export default function TrailerModel({
             </button>
 
             {isLoading ? (
-              <TrailerSkeleton />
+              <div className="w-full h-full flex flex-col items-center justify-center gap-4 bg-imdb-black/50">
+                <div className="relative w-12 h-12">
+                  <div className="absolute inset-0 border-4 border-imdb-gold/20 rounded-full" />
+                  <div className="absolute inset-0 border-4 border-imdb-gold border-t-transparent rounded-full animate-spin" />
+                </div>
+                <p className="text-imdb-gold font-bold tracking-widest text-sm animate-pulse">
+                  LOADING TRAILER...
+                </p>
+              </div>
             ) : finalKey ? (
               <iframe
                 className="w-full h-full"

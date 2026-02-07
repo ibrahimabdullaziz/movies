@@ -20,7 +20,7 @@ export default function TrendingPage() {
     <div className="p-8 pt-24 min-h-screen bg-imdb-black px-6 lg:px-16">
       <ScrollToTop trigger={page} />
       <div className="flex items-center justify-between gap-6 mb-12">
-        <Header HeadTitle="Trending" />
+        <Header HeadTitle="Trending" showBack={false} />
         <SortMenu onSortChange={(value) => {
           setSortBy(value);
           setPage(1);
